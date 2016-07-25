@@ -1,0 +1,25 @@
+fonction autoriser :
+
+- opendir : ouvrir un dossier
+- readdir : lire le contenue du dossier
+- closedir : fermer le dossier
+- malloc : allouer de la memoire
+- free : liberer la memoire
+- exit : fermer le programme
+- getcwd : recupere le repertoire courant
+- chdir : change le repertoire courant
+- fork : creer un processus fils
+- stat : recupere l'etat d'un fichier
+- lstat : idem stat sauf que si lien symbolique il donne l'etat du lien plutot que le fichier vise
+- fstat : idem stat sauf que fichier ouvert fointer par fd, obtenu avec open
+- open : ouvrir un fichier
+- close : fermer le fichier
+- read : lire le fichier
+- write : ecrire ds un descripteur de fichier
+- execve : execute un programme
+- access : verifie si le processus peut acceder au fichier
+- wait : suspend le processus j'uska la fin du processus fils
+- waitpid : suspend le processus j'uska que ses fils ai changer d'etat
+- wait3 : idem a waitpid sauf qu'il attend n'importe quel fils
+- wait4 : idem sauf qu'il permet de choisir qu'el fils on attend
+- signal : 
