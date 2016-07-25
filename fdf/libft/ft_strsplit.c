@@ -18,6 +18,7 @@ static int		ft_cmptab(const char *s, char c)
 	int		i;
 
 	i = 0;
+	k = 0;
 	while (s[i])
 	{
 		while (s[i] && s[i] == c)

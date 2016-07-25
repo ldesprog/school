@@ -20,7 +20,8 @@ SRC = fdf.c \
 		get_next_line/get_next_line.c
 
 CFLAGS = -Wall -Werror -Wextra -I./
-LFLAGS = -L/usr/X11/lib -lmlx -lXext -lX11
+#LFLAGS = -L/usr/X11/lib -lmlx -lXext -lX11
+LFLAGS = -lmlx -framework OpenGL -framework AppKit
 
 LIBFT = libft/libft.a
 

@@ -53,6 +53,7 @@ void	ft_calc_map(t_env e, t_pos p, int **map)
 	int i;
 	int j;
 
+	i = 0;
 	while (p.y < e.high * MULTI)
 	{
 		j = 0;
