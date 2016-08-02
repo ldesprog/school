@@ -3,7 +3,7 @@
 
 int		main(int ac, char **av)
 {
-	char *tetriminos;
+	t_fillit *map;
 	int i;
 
 	if (ac != 2)
@@ -11,21 +11,22 @@ int		main(int ac, char **av)
 		write(1, "usage : ./fillit fichier.fillit\n", 32);
 		exit(0);
 	}
-	tetriminos = ft_read_file(av[1]);
-	if (!ft_verif_file(tetriminos) || !ft_is_tetri(tetriminos))
+	map = (t_fillit *)malloc(sizeof(t_fillit));
+	map->tetriminos = ft_read_file(av[1]);
+	if (!ft_verif_file(map->tetriminos) || !ft_is_tetri(map->tetriminos))
 	{
-		free(tetriminos);
+		free(map->tetriminos);
+		free(map);
 		write(1, "error\n", 6);
 		exit(0);
 	}
 	i = -1;
-	while (tetriminos[++i])
+	while (map->tetriminos[++i])
 	{
-		if (tetriminos[i] == '1')
-			tetriminos[i] = '#';
+		if (map->tetriminos[i] == '1')
+			map->tetriminos[i] = '#';
 	}
-	ft_solve(tetriminos);
-	free(tetriminos);
+	ft_solve(map);
 	return (0);
 }
 
@@ -147,7 +148,7 @@ char	*ft_read_file(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		write(1, "usage : ./fillit fichier.fillit\n", 32);
+		write(1, "file open fail\n", 15);
 		exit(0);
 	}
 	i = 0;
