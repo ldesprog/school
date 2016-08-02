@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldesprog <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/08/02 21:53:18 by ldesprog          #+#    #+#             */
+/*   Updated: 2016/08/02 21:53:23 by ldesprog         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "fillit.h"
 
 int		main(int ac, char **av)
 {
-	t_fillit *map;
-	int i;
+	t_fillit	*map;
+	int			i;
 
 	if (ac != 2)
 	{
@@ -40,21 +51,21 @@ int		ft_is_tetri_3(char *file, int i, int *j, int move)
 void	ft_is_tetri_2(char *file, int i, int *j, int *n)
 {
 	if (*j > 0 && file[i + *j - 1] == '#')
-		 *n += ft_is_tetri_3(file, i, j, -1);
+		*n += ft_is_tetri_3(file, i, j, -1);
 	else if (*j < 14 && file[i + *j + 5] == '#')
-		 *n += ft_is_tetri_3(file, i, j, 5);
+		*n += ft_is_tetri_3(file, i, j, 5);
 	else if (*j < 18 && file[i + *j + 1] == '#')
-		 *n += ft_is_tetri_3(file, i, j, 1);
+		*n += ft_is_tetri_3(file, i, j, 1);
 	else if (*j > 4 && file[i + *j - 5] == '#')
-		 *n += ft_is_tetri_3(file, i, j, -5);
+		*n += ft_is_tetri_3(file, i, j, -5);
 	else if (*j > 4 && file[i + *j - 5] == '1')
-		 ft_is_tetri_3(file, i, j, -5);
+		ft_is_tetri_3(file, i, j, -5);
 	else if (*j < 18 && file[i + *j + 1] == '1')
-		 ft_is_tetri_3(file, i, j, 1);
+		ft_is_tetri_3(file, i, j, 1);
 	else if (*j < 14 && file[i + *j + 5] == '1')
-		 ft_is_tetri_3(file, i, j, 5);
+		ft_is_tetri_3(file, i, j, 5);
 	else if (*j > 0 && file[i + *j - 1] == '1')
-		 ft_is_tetri_3(file, i, j, -1);
+		ft_is_tetri_3(file, i, j, -1);
 }
 
 int		ft_is_tetri(char *file)
@@ -85,14 +96,12 @@ int		ft_is_tetri(char *file)
 	return (1);
 }
 
-
-
 char	*ft_read_file(char *file)
 {
-	int fd;
-	char *tetriminos;
-	int i;
-	char c;
+	int		fd;
+	char	*tetriminos;
+	int		i;
+	char	c;
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)

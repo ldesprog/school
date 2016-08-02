@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_fonc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldesprog <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/08/02 21:52:58 by ldesprog          #+#    #+#             */
+/*   Updated: 2016/08/02 21:53:06 by ldesprog         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fillit.h"
 
 int		ft_strlen(char *str)
@@ -54,7 +66,7 @@ int		ft_verif_file_2(char *file)
 		j = 0;
 		while (j < 21)
 		{
-			if (file [i + j] == '#')
+			if (file[i + j] == '#')
 				n++;
 			j++;
 		}
@@ -65,7 +77,7 @@ int		ft_verif_file_2(char *file)
 	return (1);
 }
 
-int		ft_verif_file(char *file)
+int		ft_verif_file(char *f)
 {
 	int i;
 	int j;
@@ -74,22 +86,22 @@ int		ft_verif_file(char *file)
 	i = 0;
 	j = 0;
 	x = 0;
-	while (file[i + j * 5 + x * 21])
+	while (f[i + j * 5 + x * 21])
 	{
-		if (file[i + j * 5 + x * 21] == '#' || file[i + j * 5 + x * 21] == '.')
+		if (f[i + j * 5 + x * 21] == '#' || f[i + j * 5 + x * 21] == '.')
 			i++;
-		else if (file[i + j * 5 + x * 21] == '\n' && i == 4 && ++j)
+		else if (f[i + j * 5 + x * 21] == '\n' && i == 4 && ++j)
 			i = 0;
-		else if (file[i + j * 5 + x * 21] == '\n' && i == 0 && j == 4\
-			 && (file[i + 1 + j * 5 + x * 21] == '#' \
-				|| file[i + 1 + j * 5 + x * 21] == '.') && ++x)
+		else if (f[i + j * 5 + x * 21] == '\n' && i == 0 && j == 4 \
+			&& (f[i + 1 + j * 5 + x * 21] == '#' \
+				|| f[i + 1 + j * 5 + x * 21] == '.') && ++x)
 			j = 0;
 		else
 			return (0);
 		if (x >= 26)
 			return (0);
 	}
-	if (file[i -1 + j * 5 + x * 21] != '\n' || file[i - 2 + j * 5 + x * 21] == '\n')
+	if (f[i - 1 + j * 5 + x * 21] != '\n' || f[i - 2 + j * 5 + x * 21] == '\n')
 		return (0);
-	return (x * ft_verif_file_2(file));
+	return (x * ft_verif_file_2(f));
 }

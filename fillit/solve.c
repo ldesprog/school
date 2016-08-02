@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   solve.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldesprog <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/08/02 21:53:30 by ldesprog          #+#    #+#             */
+/*   Updated: 2016/08/02 21:53:39 by ldesprog         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "fillit.h"
 
@@ -15,8 +26,8 @@ void	ft_verif_2(t_fillit *map, int pos_map, int i_tetri, int c)
 		if (map->tetriminos[i + i_tetri] == '#')
 		{
 			z++;
-			x = (i - map->n) % 5;
-			y = (i - map->n) / 5;
+			x = i % 5 - map->n % 5;
+			y = i / 5 - map->n / 5;
 			map->map[pos_map + x + y * (map->s_map + 1)] = c;
 		}
 	}
@@ -40,8 +51,8 @@ int		ft_verif(t_fillit *map, int pos_map, int i_tetri, int c)
 		if (map->tetriminos[i + i_tetri] == '#')
 		{
 			z++;
-			x = (i - map->n) % 5;
-			y = (i - map->n) / 5;
+			x = i % 5 - map->n % 5;
+			y = i / 5 - map->n / 5;
 			if (map->map[pos_map + x + y * (map->s_map + 1)] != '.')
 				return (0);
 		}
@@ -99,7 +110,7 @@ void	ft_init_map(char *map, int size_map)
 
 void	ft_solve(t_fillit *map)
 {
-	int 		nb_tetriminos;
+	int	nb_tetriminos;
 
 	map->s_map = ft_size_map(map->tetriminos, &nb_tetriminos);
 	map->map = (char *)malloc(1 * (map->s_map + 1) * (map->s_map + 1));
