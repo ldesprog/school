@@ -10,6 +10,8 @@
 typedef struct	s_fillit
 {
 	char	*map;
+	int		pos_map;
+	int		s_map;
 }				t_fillit;
 
 char	*ft_read_file(char *file);

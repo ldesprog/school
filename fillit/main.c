@@ -145,6 +145,11 @@ char	*ft_read_file(char *file)
 	char c;
 
 	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		write(1, "usage : ./fillit fichier.fillit\n", 32);
+		exit(0);
+	}
 	i = 0;
 	while (read(fd, &c, 1))
 		i++;

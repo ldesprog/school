@@ -25,61 +25,72 @@ void	ft_clear(char *map, int c, int pos_map)
 	}
 }
 
-int		ft_verif(char *map, char *tetriminos, int i_tetri, int pos_map, int size_map, int c)
+void	ft_verif_2(t_fillit *map, char *tetriminos, int i_tetri, int c)
 {
 	int i;
 	int x;
 	int y;
 	int z;
 
-	while (tetriminos[i_tetri] != '#')
-		i_tetri++;
-	i = i_tetri - 1;
+	i = -1;
 	z = 0;
-	while (++i < 19 + i_tetri && z < 4)
+	while (++i < 19 && z < 4)
 	{
-		if (tetriminos[i] == '#')
+		if (tetriminos[i + i_tetri] == '#')
 		{
 			z++;
-			x = (i - i_tetri) % 5;
-			y = (i - i_tetri) / 5;
-			if (map[pos_map + x + y * (size_map + 1)] != '.')
+			x = (i) % 5;
+			y = (i) / 5;
+			map->map[map->pos_map + x + y * (map->s_map + 1)] = c;
+		}
+	}
+}
+
+int		ft_verif(t_fillit *map, char *tetriminos, int i_tetri, int c)
+{
+	int i;
+	int x;
+	int y;
+	int z;
+
+	i = 0;
+	while (tetriminos[i_tetri + i] != '#')
+		i++;
+	i--;
+	z = 0;
+	while (++i < 19 && z < 4)
+	{
+		if (tetriminos[i + i_tetri] == '#')
+		{
+			z++;
+			x = (i) % 5;
+			y = (i) / 5;
+			if (map->map[map->pos_map + x + y * (map->s_map + 1)] != '.')
 				return (0);
 		}
 	}
-	i = i_tetri - 1;
-	z = 0;
-	while (++i < 19 + i_tetri && z < 4)
-	{
-		if (tetriminos[i] == '#')
-		{
-			z++;
-			x = (i - i_tetri) % 5;
-			y = (i - i_tetri) / 5;
-			map[pos_map + x + y * (size_map + 1)] = c;
-		}
-	}
+	ft_verif_2(map, tetriminos, i_tetri, c);
 	return (1);
 }
 
-int		ft_search(int size_map, int nb_tetriminos, char *tetriminos, char *map, int i_tetri)
+int		ft_search(t_fillit *map, int nb_tetriminos, char *tetriminos, int i_tetri)
 {
-	int pos_map;
 	char c;
 
-	pos_map = 0;
+	map->pos_map = 0;
 	c = (i_tetri + 1) / 21 + 97;
-	while (pos_map < (size_map + 1) * size_map)
+	while (map->pos_map < (map->s_map + 1) * map->s_map)
 	{
-		if (map[pos_map] == '.' && ft_verif(map, tetriminos, i_tetri, pos_map, size_map, c) == 1)
+		if (map->map[map->pos_map] == '.' \
+			&& ft_verif(map, tetriminos, i_tetri, c) == 1)
 		{
 			if (nb_tetriminos * 21 > i_tetri + 21 && \
-				ft_search(size_map, nb_tetriminos, tetriminos, map, i_tetri + 21) == 0)
-				ft_clear(map, c, pos_map);
+				ft_search(map, nb_tetriminos, tetriminos, i_tetri + 21) == 0)
+				ft_clear(map->map, c, map->pos_map);
 			else
 				return (1);
 		}
-		pos_map++;
+		map->pos_map++;
 	}
 	return (0);
 }
@@ -132,21 +143,22 @@ void	ft_init_map(char *map, int size_map)
 
 void	ft_solve(char *tetriminos)
 {
-	char *map;
-	int size_map;
-	int nb_tetriminos;
+	t_fillit	*map;
+	int 		nb_tetriminos;
 
-	size_map = ft_size_map(tetriminos, &nb_tetriminos);
-	map = (char *)malloc(sizeof(char) * (size_map + 1) * (size_map + 1));
-	map[(size_map + 1) * (size_map + 1)] = 0;
-	ft_init_map(map, size_map);
-	while (!ft_search(size_map, nb_tetriminos, tetriminos, map, 0))
+	map = (t_fillit *)malloc(sizeof(t_fillit));
+	map->s_map = ft_size_map(tetriminos, &nb_tetriminos);
+	map->map = (char *)malloc(1 * (map->s_map + 1) * (map->s_map + 1));
+	map->map[(map->s_map + 1) * (map->s_map + 1)] = 0;
+	ft_init_map(map->map, map->s_map);
+	while (!ft_search(map, nb_tetriminos, tetriminos, 0))
 	{
-		size_map++;
-		free(map);
-		map = (char *)malloc(sizeof(char) * (size_map + 1) * size_map);
-		map[(size_map + 1) * (size_map + 1)] = 0;
-		ft_init_map(map, size_map);
+		map->s_map++;
+		free(map->map);
+		map->map = (char *)malloc(1 * (map->s_map + 1) * map->s_map);
+		map->map[(map->s_map + 1) * (map->s_map + 1)] = 0;
+		ft_init_map(map->map, map->s_map);
 	}
-	write(1, map, ft_strlen(map));
+	write(1, map->map, ft_strlen(map->map));
+	free(map);
 }
