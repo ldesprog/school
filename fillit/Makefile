@@ -1,7 +1,8 @@
 NAME = fillit
 
 SRC = main.c \
-		solve.c
+		solve.c \
+		ft_fonc.c
 
 OBJ = $(SRC:.c=.o)
 

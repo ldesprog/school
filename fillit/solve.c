@@ -1,30 +1,6 @@
 
 #include "fillit.h"
 
-///////////////////////////////////////////////////////////////////////////////
-
-int		ft_strlen(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-void	ft_clear(char *map, int c, int pos_map)
-{
-	while (map[pos_map])
-	{
-		if (map[pos_map] == c)
-			map[pos_map] = '.';
-		pos_map++;
-	}
-}
-
 void	ft_verif_2(t_fillit *map, int pos_map, int i_tetri, int c)
 {
 	int i;
@@ -94,27 +70,6 @@ int		ft_search(t_fillit *map, int nb_tetriminos, int i_tetri, int pos_map)
 		pos_map++;
 	}
 	return (0);
-}
-
-int		ft_size_map(char *tetriminos, int *nb_tetriminos)
-{
-	int i;
-	int n;
-	int len;
-
-	len = ft_strlen(tetriminos);
-	i = 0;
-	n = 0;
-	while (i < len)
-	{
-		n++;
-		i += 21;
-	}
-	*nb_tetriminos = n;
-	i = 0;
-	while (i * i < n * 4)
-		i++;
-	return (i);
 }
 
 void	ft_init_map(char *map, int size_map)

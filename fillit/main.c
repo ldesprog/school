@@ -85,58 +85,7 @@ int		ft_is_tetri(char *file)
 	return (1);
 }
 
-int		ft_verif_file_2(char *file)
-{
-	int i;
-	int j;
-	int n;
 
-	i = 0;
-	while (file[i])
-	{
-		n = 0;
-		j = 0;
-		while (j < 21)
-		{
-			if (file [i + j] == '#')
-				n++;
-			j++;
-		}
-		if (n != 4)
-			return (0);
-		i += 21;
-	}
-	return (1);
-}
-
-int		ft_verif_file(char *file)
-{
-	int i;
-	int j;
-	int x;
-
-	i = 0;
-	j = 0;
-	x = 0;
-	while (file[i + j * 5 + x * 21])
-	{
-		if (file[i + j * 5 + x * 21] == '#' || file[i + j * 5 + x * 21] == '.')
-			i++;
-		else if (file[i + j * 5 + x * 21] == '\n' && i == 4 && ++j)
-			i = 0;
-		else if (file[i + j * 5 + x * 21] == '\n' && i == 0 && j == 4\
-			 && (file[i + 1 + j * 5 + x * 21] == '#' \
-				|| file[i + 1 + j * 5 + x * 21] == '.') && ++x)
-			j = 0;
-		else
-			return (0);
-		if (x >= 26)
-			return (0);
-	}
-	if (file[i -1 + j * 5 + x * 21] != '\n' || file[i - 2 + j * 5 + x * 21] == '\n')
-		return (0);
-	return (x * ft_verif_file_2(file));
-}
 
 char	*ft_read_file(char *file)
 {
