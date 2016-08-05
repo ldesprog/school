@@ -64,10 +64,12 @@ int		ft_verif_file_2(char *file)
 	{
 		n = 0;
 		j = 0;
-		while (j < 21)
+		while (j < 20)
 		{
 			if (file[i + j] == '#')
 				n++;
+			if (file[i + j] == 0)
+				return (0);
 			j++;
 		}
 		if (n != 4)
@@ -103,5 +105,5 @@ int		ft_verif_file(char *f)
 	}
 	if (f[i - 1 + j * 5 + x * 21] != '\n' || f[i - 2 + j * 5 + x * 21] == '\n')
 		return (0);
-	return (x * ft_verif_file_2(f));
+	return ((x + 1) * ft_verif_file_2(f));
 }

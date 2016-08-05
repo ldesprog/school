@@ -102,6 +102,7 @@ char	*ft_read_file(char *file)
 	char	*tetriminos;
 	int		i;
 	char	c;
+	int 	n;
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
@@ -118,5 +119,8 @@ char	*ft_read_file(char *file)
 	i = 0;
 	while (read(fd, &c, 1))
 		tetriminos[i++] = c;
+	n = i + 5;
+	while (i < n)
+		tetriminos[i++] = 0;
 	return (tetriminos);
 }
