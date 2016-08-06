@@ -15,7 +15,7 @@
 int		key_hook(int keycode, t_env *e)
 {
 	(void)e;
-	if (keycode == 65307)
+	if (keycode == 53)
 		exit(0);
 	return (0);
 }

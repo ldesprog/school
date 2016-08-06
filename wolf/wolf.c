@@ -128,17 +128,17 @@ void	ft_init_env(t_env *env)
 
 int main(void)
 {
-	t_env *env;
+	t_env *e;
 
-	env = (t_env *)malloc(sizeof(t_env));
-	ft_init_env(env);
-	ft_init_map(env, "map.wolf");
-	SDL_Init(SDL_INIT_VIDEO);
-	env->img = SDL_SetVideoMode(env->weight, env->hight, 32, SDL_HWSURFACE);
-	SDL_EnableKeyRepeat(10, 10);
-	ft_wolf(env);
-	SDL_FreeSurface(env->img);
-	SDL_Quit();
-	ft_free(env);
+	e = (t_env *)malloc(sizeof(t_env));
+	ft_init_env(e);
+	ft_init_map(e, "map.wolf");
+	e->mlx = mlx_init();
+	e->win = mlx_new_window(e->mlx, 1920, 1080, "WOLF 3D");
+	e->img = mlx_new_image(e->mlx, 1920, 1080);
+	e->data = mlx_get_data_addr(e->img, &(e->bpp), &(e->sizeline), &(e->endian));
+	ft_wolf(e);
+	mlx_loop(e->mlx);
+	ft_free(e);
 	return 0;
 }

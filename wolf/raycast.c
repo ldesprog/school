@@ -117,38 +117,35 @@ void	ft_color(int c, int *c1, int *c2, int *c3)
 	}
 }
 
-void	ft_paint(Uint8 *pixel, int c1, int c2, int c3)
+void	ft_paint(t_env e, int c1, int c2, int c3)
 {
-	*pixel = c1;
-	*(pixel + 1) = c2;
-	*(pixel + 2) = c3;
+	*(e.data + e.y * e.sizeline + e.bpp / 8 * e.x) = c1;
+	*(e.data + e.y * e.sizeline + e.bpp / 8 * e.x + 1) = c2;
+	*(e.data + e.y * e.sizeline + e.bpp / 8 * e.x + 2) = c3;
 }
 
 //pour la sdl ......
 void	ft_ray(t_env *e, float dist, int x, int color)
 {
-	int y;
 	int c1;
 	int c2;
 	int c3;
 
+	e->x = x;
 	e->c = color;
 	ft_color(e->c, &c1, &c2, &c3);
 	e->mur = (int)((float)e->size / dist * e->hight);
 	e->plafond = e->hight / 2 - e->mur / 2;
-	y = -1;
-	while (++y < e->plafond)
-		ft_paint((Uint8 *)e->img->pixels + y * e->img->pitch + x
-			* e->img->format->BytesPerPixel, 0x00, 0x00, 0x00);
-	e->mur += y;
-	y--;
-	while (++y < e->mur && y < e->hight)
-		ft_paint((Uint8 *)e->img->pixels + y * e->img->pitch + x
-			* e->img->format->BytesPerPixel, c1, c2, c3);
-	y--;
-	while (++y < e->hight)
-		ft_paint((Uint8 *)e->img->pixels + y * e->img->pitch + x
-			* e->img->format->BytesPerPixel, 0x00, 0x00, 0x00);
+	e->y = -1;
+	while (++(e->y) < e->plafond)
+		ft_paint(*e, 0x00, 0x00, 0x00);
+	e->mur += e->y;
+	(e->y)--;
+	while (++(e->y) < e->mur && e->y < e->hight)
+		ft_paint(*e, c1, c2, c3);
+	(e->y)--;
+	while (++(e->y) < e->hight)
+		ft_paint(*e, 0x00, 0x00, 0x00);
 }
 
 void	ft_avance(int i, t_env *e)
@@ -178,7 +175,7 @@ void	ft_tourne(int i, t_env *e)
 		e->player->dir += 360;
 	ft_raycast(e);
 }
-
+/*
 void	ft_event(t_env *e)
 {
     int continuer = 1;
@@ -205,7 +202,7 @@ void	ft_event(t_env *e)
         }
     }
 }
-
+*/
 void	ft_raycast_2(t_env *e, int x, float dir_x, float dir_p)
 {
 	if (e->b == -1 || (e->a != -1 && e->a < e->b))
@@ -249,11 +246,8 @@ void	ft_raycast(t_env *e)
 	int x;
 	float add_angle;
 
-/*
-	env->img_ptr = mlx_new_image(env->mlx_ptr, env->weight, env->hight);
-	env->data = mlx_get_data_addr(env->img_ptr, &(env->bpp), &(env->size_line), &(env->endian));
-*/
-	SDL_LockSurface(e->img);
+	e->img = mlx_new_image(e->mlx, e->weight, e->hight);
+	e->data = mlx_get_data_addr(e->img, &(e->bpp), &(e->sizeline), &(e->endian));
 	e->dir_p = e->player->dir;
 	e->dir_x = e->angle / 2;
 	add_angle = (float)e->angle / e->weight;
@@ -268,15 +262,11 @@ void	ft_raycast(t_env *e)
 		x++;
 		e->dir_x -= add_angle;
 	}
-	SDL_UnlockSurface(e->img);
-/*
-	mlx_put_img_to_window(env->mlx_ptr, env->win_ptr, env->img_ptr, 0, 0);
-	mlx_destroy_image(env->mlx_ptr, env->img_ptr);
-	*/
+	mlx_put_img_to_window(e->mlx, e->win, e->img, 0, 0);
+	mlx_destroy_image(e->mlx, e->img);
 }
 
 void	ft_wolf(t_env *env)
 {
 	ft_raycast(env);
-	ft_event(env);
 }
