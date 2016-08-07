@@ -1,5 +1,10 @@
 #include "wolf.h"
 
+void	ft_put_img_to_win(t_env *e)
+{
+
+}
+
 void	ft_init_pos(t_pos *pos, float x, float y)
 {
 	pos->x = x;
@@ -175,34 +180,22 @@ void	ft_tourne(int i, t_env *e)
 		e->player->dir += 360;
 	ft_raycast(e);
 }
-/*
-void	ft_event(t_env *e)
+
+int 	ft_key(int keycode, void *param)
 {
-    int continuer = 1;
-    SDL_Event event;
- 
-    while (continuer)
-    {
-        SDL_WaitEvent(&event);
-        if (event.type == 12)
-        	continuer = 0;
-        else if (event.type == 2)
-        {
-        	if (event.key.keysym.sym == 27)
-        		continuer = 0;
-        	else if (event.key.keysym.sym == 273)
-        		ft_avance(1, e);
-        	else if (event.key.keysym.sym == 274)
-        		ft_avance(-1, e);
-        	else if (event.key.keysym.sym == 275)
-        		ft_tourne(-1, e);
-        	else if (event.key.keysym.sym == 276)
-        		ft_tourne(1, e);
-        	SDL_Flip(e->img);
-        }
-    }
+	if (keycode == 53)
+		ft_free((t_env *)param);
+	else if (keycode == 123)
+		ft_tourne(1, param);
+	else if (keycode == 124)
+		ft_tourne(-1, param);
+	else if (keycode == 125)
+		ft_avance(-1, param);
+	else if (keycode == 126)
+		ft_avance(1, param);
+	return (0);
 }
-*/
+
 void	ft_raycast_2(t_env *e, int x, float dir_x, float dir_p)
 {
 	if (e->b == -1 || (e->a != -1 && e->a < e->b))
@@ -262,11 +255,12 @@ void	ft_raycast(t_env *e)
 		x++;
 		e->dir_x -= add_angle;
 	}
-	mlx_put_img_to_window(e->mlx, e->win, e->img, 0, 0);
+	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
 	mlx_destroy_image(e->mlx, e->img);
 }
 
-void	ft_wolf(t_env *env)
+int	ft_wolf(t_env *env)
 {
 	ft_raycast(env);
+	return (0);
 }

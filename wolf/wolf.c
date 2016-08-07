@@ -85,7 +85,11 @@ void	ft_init_map(t_env *e, char *file)
 	char **tab;
 
 	if ((fd = open(file, O_RDONLY)) < 0)
+	{
+		free(e->player);
+		free(e->player->pos);
 		exit(0);
+	}
 	i = 0;
 	tab = (char **)malloc(sizeof(char *));
 	while (get_next_line(fd, &tab[i]) > 0)
@@ -97,6 +101,11 @@ void	ft_init_map(t_env *e, char *file)
 	e->map_hight = i * e->size;
 	e->map = ft_split_to_int(tab, i, &e->map_weight);
 	e->map_weight *= e->size;
+	close(fd);
+	fd = 0;
+	while (fd <= i)
+		free(tab[fd++]);
+	free(tab);
 }
 
 void	ft_free(t_env *env)
@@ -109,6 +118,7 @@ void	ft_free(t_env *env)
 	free(env->map);
 	free(env->player->pos);
 	free(env->player);
+	mlx_destroy_window(env->mlx, env->win);
 	free(env);
 }
 
@@ -134,10 +144,11 @@ int main(void)
 	ft_init_env(e);
 	ft_init_map(e, "map.wolf");
 	e->mlx = mlx_init();
-	e->win = mlx_new_window(e->mlx, 1920, 1080, "WOLF 3D");
-	e->img = mlx_new_image(e->mlx, 1920, 1080);
-	e->data = mlx_get_data_addr(e->img, &(e->bpp), &(e->sizeline), &(e->endian));
+	e->win = mlx_new_window(e->mlx, e->weight, e->hight, "WOLF 3D");
 	ft_wolf(e);
+	mlx_do_key_autorepeaton(e->mlx);
+	mlx_hook(e->win, 2, 0, &ft_key, e);
+	mlx_expose_hook(e->win, &ft_wolf, e);
 	mlx_loop(e->mlx);
 	ft_free(e);
 	return 0;

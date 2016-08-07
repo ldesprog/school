@@ -54,7 +54,9 @@ typedef struct	s_env
 
 void			ft_raycast(t_env *env);
 void			ft_raycast_1(t_env *e, int x, float dir_p, float dir_x);
-void			ft_wolf(t_env *env);
+int				ft_wolf(t_env *env);
 int				get_next_line(int fd, char **line);
+int				ft_key(int keycode, void *param);
+void			ft_free(t_env *env);
 
 #endif

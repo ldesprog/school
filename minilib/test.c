@@ -13,27 +13,9 @@ int main(void)
 
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, 800, 800, "test mlx");
-	mlx_key_hook(win, ft_key, 0);
-	mlx_mouse_hook(win, ft_mouse, 0);
+	img = mlx_new_image(e.mlx, 1920, 1080);
+	data = mlx_get_data_addr(img, bpp, sizeline, endian);
 	mlx_loop(mlx);
-	printf("test fin\n");
-	return (0);
-}
-
-int ft_key(int keycode, void *param)
-{
-	printf("test key\n");
-	return (0);
-}
-
-int ft_mouse(int button, int x, int y, void *param)
-{
-	printf("test mouse\n");
-	return (0);
-}
-
-int ft_loop(void *param)
-{
-	printf("test loop\n");
+	printf("test fin\n");                                                                                                                   
 	return (0);
 }
