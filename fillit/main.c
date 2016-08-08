@@ -102,7 +102,7 @@ char	*ft_read_file(char *file)
 	char	*tetriminos;
 	int		i;
 	char	c;
-	int 	n;
+	int		n;
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
