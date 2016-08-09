@@ -25,25 +25,27 @@ int main(int ac, char **av)
 	fd = open(av[1], O_RDONLY);
 	fd2 = open(av[2], O_RDONLY);
 	i = 0;
-	while (i < 5 && get_next_line(fd, &str))
+	while (i < 5 && get_next_line(0, &str))
 	{
 		printf("1 : %i |%s|\n", i, str);
-		str[0] = '\0';
+		free(str);
 		i++;
 	}
-	while (i < 10 && get_next_line(fd2, &str))
+	while (i < 10 && get_next_line(0, &str))
 	{
 		printf("2 : %i |%s|\n", i, str);
-		str[0] = '\0';
+		free(str);
 		i++;
 	}
-	while (i < 15 && get_next_line(fd, &str))
+	while (i < 15 && get_next_line(0, &str))
 	{
 		printf("1 : %i |%s|\n", i, str);
-		str[0] = '\0';
+		free(str);
 		i++;
 	}
 	close(fd);
+	close(fd2);
+	sleep(200);
 	(void)ac;
 	return (0);
 }

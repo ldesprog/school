@@ -69,6 +69,7 @@ void		ft_init_gnl(char **buf, char **line, int *nb_char, int *ret)
 {
 	*buf = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1));
 	*line = (char *)malloc(sizeof(char));
+	**line = 0;
 	*nb_char = 0;
 	*ret = 0;
 }
