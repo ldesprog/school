@@ -120,6 +120,7 @@ void	ft_free(t_env *env)
 	free(env->player);
 	mlx_destroy_window(env->mlx, env->win);
 	free(env);
+	exit(0);
 }
 
 void	ft_init_env(t_env *env)

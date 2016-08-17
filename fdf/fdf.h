@@ -44,16 +44,24 @@ typedef struct	s_env
 	int			*len;
 	t_pos		**map_3d;
 	int			h;
+	int			fd;
+	char 		***map;
+	int 		**imap;
+	int 		move_x;
+	int 		move_y;
+	int 		up;
+	int 		down;
+	int 		left;
+	int 		right;
 }				t_env;
 
 char			**ft_strsplit_fdf(const char *s);
 int				get_next_line(int fd, char **line);
 int				ft_atoi(const char *str);
 void			ft_ligne(t_pos map_3d, t_pos map_3d_2, t_env e, int c);
-void			ft_put_map(t_env e, int color);
-void			ft_begin_map(char ***map_char);
-void			ft_calc_map(t_env e, t_pos p, int **map);
-int				ft_put_to_win(t_env *e);
+void			ft_put_map(t_env *e, int color);
+void			ft_begin_map(char ***map_char, t_env *e, int fd);
+void			ft_calc_map(t_env *e, t_pos p, int **map);
 int				key_hook(int keycode, t_env *e);
 int				**ft_change_map(char ***map, int *len, int high);
 void			ft_compte_taille(int **len, int *high, char ***map);
@@ -66,5 +74,6 @@ void			ft_inverse_2(int *x1, int *y1, int *x2, int *y2);
 void			ft_init_pos_ligne(t_pos *p1, t_pos *p2, t_pos map_3d,
 					t_pos map_3d_2);
 void			main_2(int fd, char ****map);
+void			ft_free(t_env *e);
 
 #endif

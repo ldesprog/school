@@ -14,7 +14,6 @@
 
 void	ft_put_img(t_env e, int x, int y, int color)
 {
-	printf("x = %i, y = %i\n", x, y);
 	if (x < 1920 && x >= 0 && y < 1080 && y >= 0)
 	{
 		if (color == 1)
@@ -78,37 +77,27 @@ void	ft_ligne(t_pos map_3d, t_pos map_3d_2, t_env e, int c)
 
 	ft_init_pos_ligne(&p1, &p2, map_3d, map_3d_2);
 	ft_inverse_1(&(p1.x), &(p1.y), &(p2.x), &(p2.y));
-	printf("231\n");
 	if (p1.x <= p2.x && (p2.x - p1.x) >= abs(p2.y - p1.y))
 	{
-		printf("232\n");
 		x = p1.x - 1;
-		if (x + 1000 < 0)
-			x = -1000 - 1;
-		printf("233\n");
+		if (x + e.move_x < 0)
+			x = -e.move_x - 1;
 		while (++x <= p2.x && p2.x - p1.x != 0)
 		{
-			printf("234\n");
-			ft_put_img(e, 1000 + x, 250 + p1.y + (p2.y - p1.y)
+			ft_put_img(e, e.move_x + x, e.move_y + p1.y + (p2.y - p1.y)
 				* (x - p1.x) / (p2.x - p1.x), c);
-			printf("235\n");
 		}
 	}
 	else
 	{
-		printf("236\n");
 		ft_inverse_2(&(p1.x), &(p1.y), &(p2.x), &(p2.y));
 		x = p1.y - 1;
-		if (x + 250 < 0)
-			x = -250 - 1;
-		printf("237\n");
+		if (x + e.move_y < 0)
+			x = -e.move_y - 1;
 		while (++x <= p2.y && p2.y - p1.y != 0)
 		{
-			printf("238\n");
-			ft_put_img(e, 1000 + p1.x + (p2.x - p1.x) * (x - p1.y)
-				/ (p2.y - p1.y), 250 + x, c);
-			printf("239\n");
+			ft_put_img(e, e.move_x + p1.x + (p2.x - p1.x) * (x - p1.y)
+				/ (p2.y - p1.y), e.move_y + x, c);
 		}
 	}
-	printf("240\n");
 }

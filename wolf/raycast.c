@@ -98,27 +98,27 @@ void	ft_color(int c, int *c1, int *c2, int *c3)
 {
 	if (c == 1)
 	{
-		*c1 = 0xff;
-		*c2 = 0x00;
+		*c1 = 0xfa;
+		*c2 = 0x12;
 		*c3 = 0x00;
 	}
 	else if (c == 2)
 	{
-		*c1 = 0x00;
-		*c2 = 0xff;
+		*c1 = 0x8b;
+		*c2 = 0x5a;
 		*c3 = 0x00;
 	}
 	else if (c == 3)
 	{
-		*c1 = 0xff;
+		*c1 = 0x3a;
 		*c2 = 0x00;
-		*c3 = 0xff;
+		*c3 = 0x8a;
 	}
 	else
 	{
 		*c1 = 0x00;
-		*c2 = 0x00;
-		*c3 = 0xff;
+		*c2 = 0x53;
+		*c3 = 0xfa;
 	}
 }
 
@@ -129,7 +129,6 @@ void	ft_paint(t_env e, int c1, int c2, int c3)
 	*(e.data + e.y * e.sizeline + e.bpp / 8 * e.x + 2) = c3;
 }
 
-//pour la sdl ......
 void	ft_ray(t_env *e, float dist, int x, int color)
 {
 	int c1;
