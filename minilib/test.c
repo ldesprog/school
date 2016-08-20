@@ -1,21 +1,22 @@
-#include <mlx.h>
-#include <stdio.h>
 
-int ft_key();
-int ft_mouse();
-int ft_loop(void *param);
+#include <stdio.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int		get_next_line(int const fd, char **line);
 
 int main(void)
 {
-	void *mlx;
-	void *img;
-	void *win;
+	char *line;
+	int fd;
 
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, 800, 800, "test mlx");
-	img = mlx_new_image(e.mlx, 1920, 1080);
-	data = mlx_get_data_addr(img, bpp, sizeline, endian);
-	mlx_loop(mlx);
-	printf("test fin\n");                                                                                                                   
+	fd = open("../fdf/test_maps/100-6.fdf", O_RDONLY);
+	while (get_next_line(fd, &line))
+	{
+		free(line);
+		line = NULL;
+	}
+	sleep(200);
 	return (0);
 }

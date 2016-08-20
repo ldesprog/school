@@ -13,10 +13,10 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
+# include <string.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
 
 typedef struct		s_list
 {
@@ -84,6 +84,6 @@ char				*ft_strtrim(const char *s);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
 char				*ft_remalloc(char *s1, size_t size);
-void				*ft_malloc(int);
+void				*ft_malloc(int i);
 
 #endif

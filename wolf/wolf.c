@@ -1,88 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wolf.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldesprog <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/08/17 15:07:02 by ldesprog          #+#    #+#             */
+/*   Updated: 2016/08/17 15:07:07 by ldesprog         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "wolf.h"
-
-char	**ft_remalloc_tab(char **tab, int n)
-{
-	int i;
-	char **new;
-
-	new = (char **)malloc(sizeof(char *) * (n + 1));
-	i = 0;
-	while (i < n)
-	{
-		new[i] = tab[i];
-		i++;
-	}
-	free(tab);
-	return (new);
-}
-
-int		ft_len_str(char *str)
-{
-	int n;
-	int i;
-
-	i = 0;
-	n = 0;
-	while (str[i] == ' ')
-		i++;
-	while (str[i])
-	{
-		n++;
-		while (str[i] && str[i] != ' ')
-			i++;
-		while (str[i] == ' ')
-			i++;
-	}
-	return n;
-}
-
-int *ft_split(char *str, int j)
-{
-	int i;
-	int n;
-	int *map;
-
-	map = (int *)malloc(sizeof(int) * j);
-	i = 0;
-	n = 0;
-	while (str[i] == ' ')
-		i++;
-	while (str[i])
-	{
-		if (str[i] == 48 && str[i + 1] == ' ')
-			map[n] = 0;
-		else
-			map[n] = 1;
-		n++;
-		while (str[i] && str[i] != ' ')
-			i++;
-		while (str[i] == ' ')
-			i++;
-	}
-	return map;
-}
-
-int **ft_split_to_int(char **tab, int i, int *j)
-{
-	int **map;
-	int n;
-
-	map = (int **)malloc(sizeof(int *) * i);
-	*j = ft_len_str(tab[0]);
-	n = 0;
-	while (n < i)
-	{
-		map[n] = ft_split(tab[n], *j);
-		n++;
-	}
-	return map;
-}
 
 void	ft_init_map(t_env *e, char *file)
 {
-	int i;
-	int fd;
-	char **tab;
+	int		i;
+	int		fd;
+	char	**tab;
 
 	if ((fd = open(file, O_RDONLY)) < 0)
 	{
@@ -94,8 +28,7 @@ void	ft_init_map(t_env *e, char *file)
 	tab = (char **)malloc(sizeof(char *));
 	while (get_next_line(fd, &tab[i]) > 0)
 	{
-		i++;
-		tab = ft_remalloc_tab(tab, i);
+		tab = ft_remalloc_tab(tab, ++i);
 		tab[i] = NULL;
 	}
 	e->map_hight = i * e->size;
@@ -108,21 +41,6 @@ void	ft_init_map(t_env *e, char *file)
 	free(tab);
 }
 
-void	ft_free(t_env *env)
-{
-	int i;
-
-	i = 0;
-	while (i < env->map_hight / env->size)
-		free(env->map[i++]);
-	free(env->map);
-	free(env->player->pos);
-	free(env->player);
-	mlx_destroy_window(env->mlx, env->win);
-	free(env);
-	exit(0);
-}
-
 void	ft_init_env(t_env *env)
 {
 	env->hight = 800;
@@ -132,12 +50,41 @@ void	ft_init_env(t_env *env)
 	env->size = 1000;
 	env->player = (t_player *)malloc(sizeof(t_player));
 	env->player->pos = (t_pos *)malloc(sizeof(t_pos));
-	env->player->pos->x = 2509;
-	env->player->pos->y = 2869;
+	env->player->pos->x = 1500;
+	env->player->pos->y = 1500;
 	env->player->dir = 135;
 }
 
-int main(void)
+int		ft_verif_map(int **map, int len, int high)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < len)
+	{
+		if (map[0][i] == 0)
+			return (0);
+		if (map[high - 1][i++] == 0)
+			return (0);
+	}
+	j = 0;
+	while (j < high)
+	{
+		if (map[j][0] == 0)
+			return (0);
+		if (map[j++][len - 1] == 0)
+			return (0);
+	}
+	if (len < 3 || high < 3 || map[1][1] != 0)
+	{
+		write(1, "error : player can't spawn\n", 27);
+		return (0);
+	}
+	return (1);
+}
+
+int		main(void)
 {
 	t_env *e;
 
@@ -147,10 +94,11 @@ int main(void)
 	e->mlx = mlx_init();
 	e->win = mlx_new_window(e->mlx, e->weight, e->hight, "WOLF 3D");
 	ft_wolf(e);
-	mlx_do_key_autorepeaton(e->mlx);
-	mlx_hook(e->win, 2, 0, &ft_key, e);
-	mlx_expose_hook(e->win, &ft_wolf, e);
+	mlx_hook(e->win, 2, 0, &ft_key_down, e);
+	mlx_hook(e->win, 3, 0, &ft_key_up, e);
+	mlx_hook(e->win, 17, 0, &ft_red_cross, e);
+	mlx_loop_hook(e->mlx, &ft_wolf, e);
 	mlx_loop(e->mlx);
 	ft_free(e);
-	return 0;
+	return (0);
 }

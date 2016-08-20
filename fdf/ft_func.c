@@ -95,6 +95,8 @@ char	***remaloc_map(char ***map)
 		new[i] = map[i];
 	new[i + 1] = NULL;
 	free(map);
+	map = NULL;
+	printf("last i : %i\n", i);
 	return (new);
 }
 

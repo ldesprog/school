@@ -30,25 +30,18 @@ void	ft_free(t_env *e)
 		free(e->map[i]);
 		i++;
 	}
+	free(e->map_3d);
 	free(e->map[i]);
 	free(e->map);
-	i = 0;
-	while (e->map_3d[i])
-	{
-		//free(e->map_3d[i]);
-		i++;
-	}
-	free(e->map_3d);
 	i = 0;
 	while (e->imap[i])
 	{
 		free(e->imap[i]);
 		i++;
 	}
+	free(e->imap[i]);
 	free(e->imap);
 	free(e->len);
-	close(e->fd);
-	mlx_destroy_image(e->mlx, e->img);
 	mlx_destroy_window(e->mlx, e->win);
 	exit(0);
 }
@@ -63,9 +56,13 @@ void	main_2(int fd, char ****map)
 	{
 		*map = remaloc_map(*map);
 		(*map)[i] = (char **)ft_strsplit_fdf(line);
-		ft_clean(line);
+		printf("i ecrit : %i\n", i);
+		free(line);
+		line = NULL;
 		i++;
 	}
+	free(line);
+	close(fd);
 }
 
 int		main(int ac, char **av)
@@ -92,7 +89,7 @@ int		main(int ac, char **av)
 		return (0);
 	}
 	main_2(fd, &(e->map));
-	ft_begin_map(e->map, e, fd);
+	ft_begin_map(e->map, e);
 	ft_free(e);
 	return (0);
 }

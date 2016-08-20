@@ -21,13 +21,14 @@ char		*ft_remalloc(char *s1, size_t size)
 	if (s2 == NULL)
 		return (NULL);
 	i = -1;
-	bzero(s2, size + 1);
-	if (s1 != NULL)
+	ft_bzero(s2, size + 1);
+	if (s1)
 	{
 		while (s1[++i])
 			s2[i] = s1[i];
 		s2[i] = '\0';
 		free(s1);
+		s1 = NULL;
 	}
 	return (s2);
 }

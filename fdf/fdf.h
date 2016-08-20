@@ -44,7 +44,6 @@ typedef struct	s_env
 	int			*len;
 	t_pos		**map_3d;
 	int			h;
-	int			fd;
 	char 		***map;
 	int 		**imap;
 	int 		move_x;
@@ -60,7 +59,7 @@ int				get_next_line(int fd, char **line);
 int				ft_atoi(const char *str);
 void			ft_ligne(t_pos map_3d, t_pos map_3d_2, t_env e, int c);
 void			ft_put_map(t_env *e, int color);
-void			ft_begin_map(char ***map_char, t_env *e, int fd);
+void			ft_begin_map(char ***map_char, t_env *e);
 void			ft_calc_map(t_env *e, t_pos p, int **map);
 int				key_hook(int keycode, t_env *e);
 int				**ft_change_map(char ***map, int *len, int high);

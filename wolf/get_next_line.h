@@ -18,14 +18,7 @@
 # include <fcntl.h>
 # include "libft/libft.h"
 
-# define BUFF_SIZE 1
-
-typedef struct			s_list_get
-{
-	char				*contenue;
-	int					fd;
-	struct s_list_get	*next;
-}						t_list_get;
+# define BUFF_SIZE 8
 
 int						get_next_line(int fd, char **line);
 
