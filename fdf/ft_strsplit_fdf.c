@@ -61,7 +61,7 @@ char			**ft_strsplit_fdf(const char *s)
 		j = 0;
 		while (s[i] && (s[i] < '0' || s[i] > '9'))
 			i++;
-		if (!(tab[k] = (char *)ft_malloc(sizeof(char) * (ft_cmplen(s, i) + 1))))
+		if (s[i] && !(tab[k] = (char *)malloc(ft_cmplen(s, i) + 1)))
 			return (NULL);
 		while (s[i] && s[i] >= '0' && s[i] <= '9')
 			tab[k][j++] = s[i++];

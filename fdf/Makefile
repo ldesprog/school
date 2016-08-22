@@ -17,7 +17,9 @@ SRC = fdf.c \
 		ft_ligne.c \
 		ft_main.c \
 		ft_strsplit_fdf.c \
-		get_next_line/get_next_line.c
+		get_next_line/get_next_line.c \
+		ft_point.c \
+		ft_event.c
 
 CFLAGS = -Wall -Werror -Wextra -I./
 #LFLAGS = -L/usr/X11/lib -lmlx -lXext -lX11

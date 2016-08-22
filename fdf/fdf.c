@@ -12,23 +12,23 @@
 
 #include "fdf.h"
 
-void	ft_put_map(t_env *e, int color)
+void	ft_put_map(t_env *e)
 {
 	int i;
 	int j;
 
 	i = 0;
 	e->img = mlx_new_image(e->mlx, 1000, 1000);
-	e->data = mlx_get_data_addr(e->img, &(e->bpp), &(e->sizeline), &(e->endian));
+	e->data = mlx_get_data_addr(e->img, &(e->bpp), &(e->s_line), &(e->endian));
 	while (i < e->high)
 	{
 		j = 0;
 		while (j < e->len[i])
 		{
 			if (i && e->len[i - 1] > j)
-				ft_ligne(e->map_3d[i][j], e->map_3d[i - 1][j], *e, color);
+				ft_point(e->map_3d[i][j], e->map_3d[i - 1][j], *e);
 			if (j)
-				ft_ligne(e->map_3d[i][j], e->map_3d[i][j - 1], *e, color);
+				ft_point(e->map_3d[i][j], e->map_3d[i][j - 1], *e);
 			j++;
 		}
 		i++;
@@ -37,42 +37,45 @@ void	ft_put_map(t_env *e, int color)
 	mlx_destroy_image(e->mlx, e->img);
 }
 
-void	ft_calc_map(t_env *e, t_pos p, int **map)
+void	ft_calc_map(t_env *e, int x, int y, int z)
 {
 	int i;
 	int j;
 
 	i = 0;
-	while (p.y < e->high * MULTI)
+	while (y < e->high * e->zoom)
 	{
 		j = 0;
-		p.x = 0;
-		e->map_3d[i] = (t_pos *)ft_malloc(sizeof(t_pos) * e->len[p.y / MULTI]);
-		while (p.x < e->len[p.y / MULTI] * MULTI_X)
+		x = 0;
+		e->map_3d[i] = (t_pos *)malloc(sizeof(t_pos) * e->len[y / e->zoom]);
+		while (x < e->len[y / e->zoom] * (4 * e->zoom / 5))
 		{
-			if (map[i][j] != 0)
-				p.z = map[i][j] / e->h;
+			if (e->imap[i][j] != 0)
+				z = e->imap[i][j] / e->h;
 			else
-				p.z = 0;
-			e->map_3d[i][j].z = p.z;
-			e->map_3d[i][j].x = p.x - p.y;
-			e->map_3d[i][j].y = p.y + p.x
-				- e->map_3d[i][j].z * 2 * (4 * MULTI / 5);
-			p.x += MULTI_X;
+				z = 0;
+			e->map_3d[i][j].z = z;
+			e->map_3d[i][j].x = x - y;
+			e->map_3d[i][j].y = y + x - z * 2 * (4 * e->zoom / 5);
+			x += (4 * e->zoom / 5);
 			j++;
 		}
-		p.z += 4 * MULTI / 5;
-		p.y += MULTI;
+		z += 4 * e->zoom / 5;
+		y += e->zoom;
 		i++;
 	}
 }
 
-int 	ft_fdf(t_env *e)
+int		ft_fdf(t_env *e)
 {
-	t_pos p;
-	int i;
+	int		i;
 
-	p.y = 0;
+	if (e->r == 1)
+		ft_init(e);
+	if (e->z == 1)
+		e->zoom += 1;
+	if (e->dz == 1 && e->zoom > 2)
+		e->zoom -= 1;
 	if (e->up == 1)
 		e->move_y -= 5;
 	if (e->down == 1)
@@ -81,54 +84,26 @@ int 	ft_fdf(t_env *e)
 		e->move_x -= 5;
 	if (e->right == 1)
 		e->move_x += 5;
-	ft_calc_map(e, p, e->imap);
-	ft_put_map(e, 1);
-	i = 0;
-	while (i < e->high)
+	ft_calc_map(e, 0, 0, 0);
+	ft_put_map(e);
+	i = -1;
+	while (++i < e->high)
 	{
 		free(e->map_3d[i]);
 		e->map_3d[i] = NULL;
-		i++;
 	}
 	return (0);
 }
 
-int 	ft_key_press(int keycode, t_env *e)
+int		ft_red_cross(t_env *e)
 {
-	if (keycode == 53)
-		ft_free(e);
-	else if (keycode == 123)
-		e->left = 1;
-	else if (keycode == 124)
-		e->right = 1;
-	else if (keycode == 125)
-		e->down = 1;
-	else if (keycode == 126)
-		e->up = 1;
-	return (0);
-}
-
-int 	ft_key_release(int keycode, t_env *e)
-{
-	if (keycode == 123)
-		e->left = 0;
-	else if (keycode == 124)
-		e->right = 0;
-	else if (keycode == 125)
-		e->down = 0;
-	else if (keycode == 126)
-		e->up = 0;
+	ft_free(e);
 	return (0);
 }
 
 void	ft_begin_map(char ***map_char, t_env *e)
 {
-	e->move_x = 500;
-	e->move_y = 250;
-	e->up = 0;
-	e->down = 0;
-	e->right = 0;
-	e->left = 0;
+	ft_init(e);
 	(void)map_char;
 	ft_compte_taille(&(e->len), &(e->high), map_char);
 	e->imap = ft_change_map(map_char, e->len, e->high);

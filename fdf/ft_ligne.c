@@ -12,22 +12,13 @@
 
 #include "fdf.h"
 
-void	ft_put_img(t_env e, int x, int y, int color)
+void	ft_put_img(t_env e, int x, int y)
 {
 	if (x < 1000 && x >= 0 && y < 1000 && y >= 0)
 	{
-		if (color == 1)
-		{
-			*(e.data + y * e.sizeline + e.bpp / 8 * x) = 0x00;
-			*(e.data + y * e.sizeline + e.bpp / 8 * x + 1) = 0x00;
-			*(e.data + y * e.sizeline + e.bpp / 8 * x + 2) = 0xFF;
-		}
-		if (color == 0)
-		{
-			*(e.data + y * e.sizeline + e.bpp / 8 * x) = 0x00;
-			*(e.data + y * e.sizeline + e.bpp / 8 * x + 1) = 0x00;
-			*(e.data + y * e.sizeline + e.bpp / 8 * x + 2) = 0x00;
-		}
+		*(e.data + y * e.s_line + e.bpp / 8 * x) = e.c1;
+		*(e.data + y * e.s_line + e.bpp / 8 * x + 1) = e.c2;
+		*(e.data + y * e.s_line + e.bpp / 8 * x + 2) = e.c3;
 	}
 }
 
@@ -69,7 +60,7 @@ void	ft_init_pos_ligne(t_pos *p1, t_pos *p2, t_pos map_3d, t_pos map_3d_2)
 	p2->y = map_3d_2.y;
 }
 
-void	ft_ligne(t_pos map_3d, t_pos map_3d_2, t_env e, int c)
+void	ft_ligne(t_pos map_3d, t_pos map_3d_2, t_env e)
 {
 	int		x;
 	t_pos	p1;
@@ -83,10 +74,8 @@ void	ft_ligne(t_pos map_3d, t_pos map_3d_2, t_env e, int c)
 		if (x + e.move_x < 0)
 			x = -e.move_x - 1;
 		while (++x <= p2.x && p2.x - p1.x != 0)
-		{
 			ft_put_img(e, e.move_x + x, e.move_y + p1.y + (p2.y - p1.y)
-				* (x - p1.x) / (p2.x - p1.x), c);
-		}
+				* (x - p1.x) / (p2.x - p1.x));
 	}
 	else
 	{
@@ -95,9 +84,7 @@ void	ft_ligne(t_pos map_3d, t_pos map_3d_2, t_env e, int c)
 		if (x + e.move_y < 0)
 			x = -e.move_y - 1;
 		while (++x <= p2.y && p2.y - p1.y != 0)
-		{
 			ft_put_img(e, e.move_x + p1.x + (p2.x - p1.x) * (x - p1.y)
-				/ (p2.y - p1.y), e.move_y + x, c);
-		}
+				/ (p2.y - p1.y), e.move_y + x);
 	}
 }

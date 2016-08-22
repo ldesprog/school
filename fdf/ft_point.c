@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*   ft_point.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldesprog <ldesprog@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ldesprog <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/04 12:10:04 by ldesprog          #+#    #+#             */
-/*   Updated: 2014/11/04 12:10:06 by ldesprog         ###   ########.fr       */
+/*   Created: 2016/08/22 19:57:43 by ldesprog          #+#    #+#             */
+/*   Updated: 2016/08/22 19:57:46 by ldesprog         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "fdf.h"
 
-int		ft_isprint(int c)
+void	ft_point(t_pos map_3d, t_pos map_3d_2, t_env e)
 {
-	if (c >= ' ' && c <= '~')
-		return (1);
+	if (e.p == 1)
+	{
+		ft_put_img(e, map_3d.x + e.move_x, map_3d.y + e.move_y);
+		ft_put_img(e, map_3d_2.x + e.move_x, map_3d_2.y + e.move_y);
+	}
 	else
-		return (0);
+		ft_ligne(map_3d, map_3d_2, e);
 }
