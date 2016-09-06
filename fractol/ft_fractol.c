@@ -1,80 +1,76 @@
 #include "fractol.h"
 
-s_complexe	ft_convertion(int x, int y, s_ecart e)
+void ft_setPixel(t_env *env, int x, int y, int color)
 {
-	s_complexe u;
+	char *pos;
 
-	u.r = ((double)x / 400 * 3 - 1.5) / e.z + e.decal_x;
-	u.i = ((double)y / 400 * 3 - 1.5) / e.z + e.decal_y;
-	return (u);
+	pos = env->data + y * env->s_line + env->bpp / 8 * x;
+	if (color <= 0)
+	{
+		*pos = 0x00;
+		*(pos + 1) = 0x00;
+		*(pos + 2) = 0x00;
+	}
+	else
+	{
+		*pos = 0x00;
+		*(pos + 1) = 0x00;
+		*(pos + 2) = 0x00 + color;
+	}
+	
 }
 
-void ft_setPixel(SDL_Surface *screen, int x, int y, Uint32 color)
-{
-    SDL_Rect pixel;
-    pixel.w = 1, pixel.h = 1;
-    pixel.x = x, pixel.y = y;
-    SDL_FillRect(screen, &pixel, color);
-}
-
-int		ft_si_dans_fractale(s_complexe z, s_complexe c)
+int		ft_si_dans_fractale(t_complexe z, t_complexe c)
 {
 	int n;
 	double tmp;
 
 	n = 0;
-	while (n < 100)
+	while (n < 50)
 	{
 		tmp = z.r;
 		z.r = z.r * z.r - z.i * z.i + c.r;
 		z.i = 2 * z.i * tmp + c.i;
+		if (z.r * z.r + z.i * z.i > 4)
+			return (n * 5);
 		n++;
-		if (z.r * z.r + z.i * z.i >= 4)
-		{
-			return (0);
-		}
 	}
-	return (n);
+	return (0);
+
 }
 
-void	ft_print_julia(SDL_Surface *ecran, s_complexe c, s_ecart e)
+void	ft_print_julia(t_env *env)
 {
-	int x;
-	int y;
-	s_complexe u;
-	Uint32 noir;
-	Uint32 pixel;
+	t_pos pos;
+	t_pos som;
+	t_complexe u;
+	int n;
 
-	noir = SDL_MapRGBA(ecran->format, 0, 0, 0, 255);
-	pixel = SDL_MapRGBA(ecran->format, 255, 0, 0, 255);
-	SDL_LockSurface(ecran);
-	x = 0;
-	while (x < 400)
+	env->img = mlx_new_image(env->mlx, 600, 600);
+	env->data = mlx_get_data_addr(env->img, &(env->bpp), &(env->s_line), &(env->endian));
+	pos.x = 0;
+	while (pos.x < 600)
 	{
-		y = 0;
-		while (y < 400)
+		pos.y = 0;
+		while (pos.y < 600)
 		{
-			u.r = ((double)x / 400 * 3 - 1.5) / e.z + e.decal_x;
-			u.i = ((double)y / 400 * 3 - 1.5) / e.z + e.decal_y;
-			pixel = SDL_MapRGBA(ecran->format, 255, 0, 0, 255);
-			if (ft_si_dans_fractale(u, c))
-				ft_setPixel(ecran, x, y, pixel);
+			u.r = 1.5 * (pos.x - 600 / 2) / (0.5 * env->e.z * 600) + env->e.decal_x;
+			u.i = (pos.y - 600 / 2) / (0.5 * env->e.z * 600) + env->e.decal_y;
+			if ((n = ft_si_dans_fractale(u, env->c)))
+				ft_setPixel(env, pos.x, pos.y, n);
 			else
-				ft_setPixel(ecran, x, y, noir);
-			y++;
+				ft_setPixel(env, pos.x, pos.y, n);
+			pos.y++;
 		}
-		x++;
+		pos.x++;
 	}
-	SDL_UnlockSurface(ecran);
-	SDL_Flip(ecran);
+	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
+	mlx_destroy_image(env->mlx, env->img);
 }
 
-s_ecart	ft_julia(SDL_Surface *ecran, s_complexe c, s_ecart e)
+void	ft_julia(t_env *env)
 {
-	e.z = 1.0;
-	e.decal_x = 0;
-	e.decal_y = 0;
 	
-	ft_print_julia(ecran, c, e);
-	return (e);
+	
+	ft_print_julia(env);
 }

@@ -109,10 +109,16 @@ void	ft_begin_map(char ***map_char, t_env *e)
 	e->imap = ft_change_map(map_char, e->len, e->high);
 	e->h = ft_taille(e->imap, e->len);
 	e->mlx = mlx_init();
+	if (e->mlx == NULL)
+	{
+		write(1, "error, unable to launch mlx\n", 28);
+		exit(0);
+	}
 	e->win = mlx_new_window(e->mlx, 1000, 1000, "fdf");
 	e->map_3d = (t_pos **)malloc(sizeof(t_pos *) * e->high);
 	mlx_hook(e->win, 2, 0, &ft_key_press, e);
 	mlx_hook(e->win, 3, 0, &ft_key_release, e);
+	mlx_hook(e->win, 17, 0, &ft_red_cross, e);
 	mlx_loop_hook(e->mlx, &ft_fdf, e);
 	mlx_loop(e->mlx);
 }
