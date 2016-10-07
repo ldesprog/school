@@ -14,7 +14,7 @@
 
 void	ft_print_usage(void)
 {
-	write(1, "usage: fractol [julia, mandelbrot, mandelbart]\n", 46);
+	write(1, "usage: fractol [julia, mandelbrot, mandelbart]\n", 47);
 	exit(0);
 }
 
@@ -44,11 +44,8 @@ int		ft_gestion_fractal(t_env *e)
 		e->decal_x -= 0.05 / e->z;
 	if (e->fractale == 1)
 	{
-		if (e->p == 1)
-		{
-			e->c.r = -0.7 + ((double)e->f_mouse.x / (double)600 / 2);
-			e->c.i = 0.27 + ((double)e->f_mouse.y / (double)600 / 2);
-		}
+		e->c.r = -0.7 + ((double)e->f_mouse.x / (double)600 / 2);
+		e->c.i = 0.27 + ((double)e->f_mouse.y / (double)600 / 2);
 		ft_julia(e, e->c);
 	}
 	else if (e->fractale == 2)
@@ -59,12 +56,13 @@ int		ft_gestion_fractal(t_env *e)
 	return (0);
 }
 
-void	ft_init(t_env *e)
+void	ft_init(t_env *e, int nb_fract)
 {
-	e->mouse.x = 50;
-	e->mouse.y = 400;
-	e->f_mouse.x = 50;
-	e->f_mouse.y = 400;
+	e->fractale = nb_fract;
+	e->mouse.x = 300;
+	e->mouse.y = 300;
+	e->f_mouse.x = 300;
+	e->f_mouse.y = 300;
 	if (e->fractale == 1)
 		e->decal_x = 0;
 	else
@@ -76,6 +74,7 @@ void	ft_init(t_env *e)
 	e->p = 1;
 	ft_color_init(e);
 	e->color_nb = 2;
+	e->b = 1;
 }
 
 int		main(int ac, char **av)
@@ -100,7 +99,7 @@ int		main(int ac, char **av)
 	mlx_hook(e->win, 6, 0, &ft_mouse_dragg, e);
 	mlx_mouse_hook(e->win, &ft_mouse_hook, e);
 	mlx_loop_hook(e->mlx, &ft_gestion_fractal, e);
-	ft_init(e);
+	ft_init(e, e->fractale);
 	mlx_loop(e->mlx);
 	return (0);
 }

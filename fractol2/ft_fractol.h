@@ -18,8 +18,6 @@
 # include <stdlib.h>
 # include "libft/libft.h"
 
-# include <stdio.h>
-
 typedef struct	s_pos
 {
 	double x;
@@ -70,6 +68,7 @@ typedef struct	s_env
 	int			down;
 	int			left;
 	int			right;
+	int			b;
 }				t_env;
 
 /*
@@ -78,7 +77,7 @@ typedef struct	s_env
 void			ft_print_usage();
 void			ft_check_param(int ac, char **av, t_env *e);
 int				ft_gestion_fractal(t_env *e);
-void			ft_init(t_env *e);
+void			ft_init(t_env *e, int nb_fract);
 int				main(int ac, char **av);
 
 /*
