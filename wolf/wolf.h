@@ -42,7 +42,7 @@ typedef struct	s_env
 	void		*img;
 	int			s_line;
 	int			bpp;
-	char		*data;
+	int			*data;
 	int			endian;
 	int			**map;
 	int			map_hight;
