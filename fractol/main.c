@@ -26,8 +26,10 @@ void	ft_check_param(int ac, char **av, t_env *e)
 		e->fractale = 1;
 	else if (ft_strcmp(av[1], "mandelbrot") == 0)
 		e->fractale = 2;
-	else if (ft_strcmp(av[1], "mandelbart") == 0)
+	else if (ft_strcmp(av[1], "mandelbelse") == 0)
 		e->fractale = 3;
+	else if (ft_strcmp(av[1], "tricorn") == 0)
+		e->fractale = 4;
 	else
 		ft_print_usage();
 }
@@ -51,7 +53,9 @@ int		ft_gestion_fractal(t_env *e)
 	else if (e->fractale == 2)
 		ft_mandelbrot(e, e->u);
 	else if (e->fractale == 3)
-		ft_mandelbart(e, e->u);
+		ft_mandelbelse(e, e->u);
+	else if (e->fractale == 4)
+		ft_tricorn(e, e->u);
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
 	return (0);
 }
@@ -63,12 +67,17 @@ void	ft_init(t_env *e, int nb_fract)
 	e->mouse.y = 300;
 	e->f_mouse.x = 300;
 	e->f_mouse.y = 300;
+	e->z = 1;
 	if (e->fractale == 1)
 		e->decal_x = 0;
-	else
+	else if (e->fractale == 2 || e->fractale == 3)
 		e->decal_x = -0.5;
+	else
+	{
+		e->decal_x = -0.25;
+		e->z = 0.7;
+	}
 	e->decal_y = 0;
-	e->z = 1;
 	e->u.r = 0;
 	e->u.i = 0;
 	e->p = 1;

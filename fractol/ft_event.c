@@ -36,6 +36,8 @@ void	ft_key_press_2(int keycode, t_env *e)
 		ft_init(e, 2);
 	else if (keycode == 85)
 		ft_init(e, 3);
+	else if (keycode == 86)
+		ft_init(e, 4);
 }
 
 int		ft_key_press(int keycode, t_env *e)
@@ -91,7 +93,6 @@ int		ft_mouse_hook(int button, int x, int y, t_env *e)
 {
 	(void)x;
 	(void)y;
-	printf("1\n");
 	if (button == 4)
 		ft_zoom(e, e->mouse);
 	else if (button == 5)

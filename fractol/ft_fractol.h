@@ -83,10 +83,12 @@ int				main(int ac, char **av);
 /*
 ** ft_fractal
 */
-int				ft_is_fractal(int iter, t_complexe *u, t_complexe c);
+int				ft_is_fractal(int iter, t_complexe *u, t_complexe c, int nb);
 void			ft_julia(t_env *e, t_complexe c);
 void			ft_mandelbrot(t_env *e, t_complexe u);
-void			ft_mandelbart(t_env *e, t_complexe u);
+void			ft_mandelbelse(t_env *e, t_complexe u);
+void			ft_tricorn(t_env *e, t_complexe u);
+
 int				ft_red_cross(t_env *e);
 
 /*
