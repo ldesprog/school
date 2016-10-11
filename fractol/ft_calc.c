@@ -31,3 +31,10 @@ void	ft_dezoom(t_env *e, t_pos mouse)
 	e->decal_x += ((mouse.x - 300) / 600) / ((e->z - tmp) * 55);
 	e->decal_y += ((mouse.y - 300) / 600) / ((e->z - tmp) * 55);
 }
+
+int		ft_red_cross(t_env *e)
+{
+	(void)e;
+	exit(0);
+	return (0);
+}

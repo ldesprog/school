@@ -112,10 +112,3 @@ void	ft_tricorn(t_env *e, t_complexe u)
 		}
 	}
 }
-
-int		ft_red_cross(t_env *e)
-{
-	(void)e;
-	exit(0);
-	return (0);
-}

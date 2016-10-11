@@ -89,8 +89,6 @@ void			ft_mandelbrot(t_env *e, t_complexe u);
 void			ft_mandelbelse(t_env *e, t_complexe u);
 void			ft_tricorn(t_env *e, t_complexe u);
 
-int				ft_red_cross(t_env *e);
-
 /*
 ** ft_event
 */
@@ -110,5 +108,6 @@ void			ft_color_init(t_env *e);
 */
 void			ft_zoom(t_env *e, t_pos mouse);
 void			ft_dezoom(t_env *e, t_pos mouse);
+int				ft_red_cross(t_env *e);
 
 #endif
