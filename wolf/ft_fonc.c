@@ -59,17 +59,29 @@ int		*ft_split(char *str, int j, int *n)
 {
 	int i;
 	int *map;
+	int x;
 
 	map = (int *)malloc(sizeof(int) * j);
 	i = 0;
 	*n = 0;
+	x = 0;
 	while (str[i] == ' ')
 		i++;
 	while (str[i])
 	{
+		x = 0;
 		if (str[i] == 48 && (str[i + 1] == ' ' || str[i + 1] == '\n'))
 			map[*n] = 0;
-		else
+		while (str[i] >= '1' && str[i] <= '9')
+		{
+			i++;
+			x++;
+		}
+		if (x > 0)
+			i--;
+		if (x == 1 && str[i] >= '1' && str[i] <= '9')
+			map[*n] = str[i] - '0';
+		else if (str[i] != 48)
 			map[*n] = 1;
 		(*n)++;
 		while (str[i] && str[i] != ' ')
@@ -80,7 +92,7 @@ int		*ft_split(char *str, int j, int *n)
 	return (map);
 }
 
-int		**ft_split_to_int(char **tab, int i, int *j)
+int		**ft_split_to_int(char **tab, int i, int *j, t_env *e)
 {
 	int **map;
 	int n;
@@ -101,7 +113,7 @@ int		**ft_split_to_int(char **tab, int i, int *j)
 			exit(0);
 		}
 	}
-	if (!ft_verif_map(map, *j, i))
+	if (!ft_verif_map(map, *j, i, e))
 	{
 		write(1, "error : map error\n", 18);
 		exit(0);

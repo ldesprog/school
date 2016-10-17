@@ -6,7 +6,11 @@ SRC = ft_calc_ray.c \
 		ft_paint.c \
 		raycast.c \
 		get_next_line.c \
-		wolf.c
+		wolf.c \
+		ft_hud.c \
+		ft_print_key.c
+
+OBJ = $(SRC:.c=.o)
 
 CFLAGS = -Wall -Werror -Wextra -I./
 #LFLAGS = -L/usr/X11/lib -lmlx -lXext -lX11
@@ -16,13 +20,14 @@ LIBFT = libft/libft.a
 
 all: $(LIBFT) $(NAME)
 
-$(NAME):
-	gcc $(CFLAGS) $(LFLAGS) $(SRC) $(LIBFT) -o $(NAME)
+$(NAME): $(OBJ)
+	gcc $(CFLAGS) $(LFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 	make -C libft/
 
 clean:
+	rm -f $(OBJ)
 	make -C libft/ clean
 
 fclean: clean

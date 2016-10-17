@@ -45,7 +45,8 @@ float	ft_wall_hori(t_env *e, float dir)
 
 	ft_init_wall_hori(e, dir, &a, &t);
 	while (a.y >= 0 && a.y < e->map_hight && a.x >= 0 && a.x < e->map_weight
-		&& !e->map[(int)a.y / e->size][(int)a.x / e->size])
+		&& (!(e->nb_case_a = e->map[(int)a.y / e->size][(int)a.x / e->size]) \
+		|| e->map[(int)a.y / e->size][(int)a.x / e->size] == 2))
 		ft_init_pos(&a, a.x + t.x, a.y + t.y);
 	if (a.y < 0 || a.y >= e->map_hight || a.x < 0 || a.x >= e->map_weight)
 		return (-1);
@@ -85,7 +86,8 @@ float	ft_wall_verti(t_env *e, float dir)
 
 	ft_init_wall_verti(e, dir, &b, &t);
 	while (b.y >= 0 && b.y < e->map_hight && b.x >= 0 && b.x < e->map_weight
-		&& !e->map[(int)b.y / e->size][(int)b.x / e->size])
+		&& (!(e->nb_case_b = e->map[(int)b.y / e->size][(int)b.x / e->size]) \
+		|| e->map[(int)b.y / e->size][(int)b.x / e->size] == 2))
 		ft_init_pos(&b, b.x + t.x, b.y + t.y);
 	if (b.y < 0 || b.y >= e->map_hight || b.x < 0 || b.x >= e->map_weight)
 		return (-1);

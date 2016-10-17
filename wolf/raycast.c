@@ -20,14 +20,22 @@ void	ft_avance(int i, t_env *e)
 	x = 80 * i * cos(M_PI * e->player->dir / 180);
 	y = 80 * -1 * i * sin(M_PI * e->player->dir / 180);
 	if (e->map[(int)(e->player->pos->y + y) / e->size]
-		[(int)(e->player->pos->x + x) / e->size] == 0)
+		[(int)(e->player->pos->x) / e->size] == 2 || \
+		!e->map[(int)(e->player->pos->y + y) / e->size]
+		[(int)(e->player->pos->x) / e->size])
+	{
+		y = 20 * -1 * i * sin(M_PI * e->player->dir / 180);
+		e->player->pos->y += y;
+	}
+	if (e->map[(int)(e->player->pos->y) / e->size]
+		[(int)(e->player->pos->x + x) / e->size] == 2 || \
+		!e->map[(int)(e->player->pos->y) / e->size]
+		[(int)(e->player->pos->x + x) / e->size])
 	{
 		x = 20 * i * cos(M_PI * e->player->dir / 180);
-		y = 20 * -1 * i * sin(M_PI * e->player->dir / 180);
 		e->player->pos->x += x;
-		e->player->pos->y += y;
-		ft_raycast(e);
 	}
+	ft_raycast(e);
 }
 
 void	ft_tourne(int i, t_env *e)
@@ -105,6 +113,9 @@ void	ft_raycast(t_env *e)
 		x++;
 		e->dir_x -= add_angle;
 	}
+	ft_curseur(e);
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
+	if (e->key->key_menu_v == 1)
+		ft_menu(e);
 	mlx_destroy_image(e->mlx, e->img);
 }

@@ -12,24 +12,21 @@
 
 #include "wolf.h"
 
-void	ft_color(int c, int *color)
+void	ft_color(int c, int *color, t_env *e)
 {
-	if (c == 1)
+	if ((c <= 2 && e->nb_case_a == 1) || (c > 2 && e->nb_case_b == 1))
 	{
-		*color = 0x0012fa;
+		if (c == 1)
+			*color = 0x0012fa;
+		else if (c == 2)
+			*color = 0x005a8b;
+		else if (c == 3)
+			*color = 0x8a003a;
+		else if (c == 4)
+			*color = 0xfa5300;
 	}
-	else if (c == 2)
-	{
-		*color = 0x005a8b;
-	}
-	else if (c == 3)
-	{
-		*color = 0x8a003a;
-	}
-	else
-	{
-		*color = 0xfa5300;
-	}
+	else if (e->nb_case_a == 3 || e->nb_case_b == 3)
+		*color = 0x22ff00;
 }
 
 void	ft_paint(t_env e, int color)
@@ -42,7 +39,7 @@ void	ft_ray(t_env *e, float dist, int x, int color)
 {
 	e->x = x;
 	e->c = color;
-	ft_color(e->c, &color);
+	ft_color(e->c, &color, e);
 	e->mur = (int)((float)e->size / dist * e->hight);
 	e->plafond = e->hight / 2 - e->mur / 2;
 	e->y = -1;

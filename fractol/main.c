@@ -14,7 +14,7 @@
 
 void	ft_print_usage(void)
 {
-	write(1, "usage: fractol [julia, mandelbrot, mandelbart]\n", 47);
+	write(1, "usage: fractol [julia, mandelbrot, mandelbelse, tricorn]\n", 57);
 	exit(0);
 }
 

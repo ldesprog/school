@@ -14,29 +14,63 @@
 
 int		ft_key_down(int keycode, t_env *e)
 {
-	if (keycode == 53)
-		ft_free(e);
-	else if (keycode == 123)
-		e->left = 1;
-	else if (keycode == 124)
-		e->right = 1;
-	else if (keycode == 125)
-		e->down = 1;
-	else if (keycode == 126)
-		e->up = 1;
+	printf("%i\n", keycode);
+	if (e->key->add_new_key == 0)
+	{
+		if (keycode == e->key->key_left)
+			e->key->key_left_v = 1;
+		else if (keycode == e->key->key_right)
+			e->key->key_right_v = 1;
+		else if (keycode == e->key->key_down)
+			e->key->key_down_v = 1;
+		else if (keycode == e->key->key_up)
+			e->key->key_up_v = 1;
+		else if (keycode == e->key->key_menu && e->key->key_menu_v == 0)
+		{
+			e->key->new_key = 0;
+			e->key->time_menu = 0;
+			e->key->pos_curseur = 0;
+			e->key->key_menu_v = 1;
+		}
+		else if (keycode == e->key->key_menu && e->key->key_menu_v == 1)
+			e->key->key_menu_v = 0;
+	}
+	else if (e->key->add_new_key == 1)
+	{
+		e->key->add_new_key = 2;
+		e->key->new_key = keycode;
+	}
+	if (keycode == e->key->key_enter)
+	{
+		e->key->key_enter_c++;
+		e->key->key_enter_v = 1;
+	}
+	if (keycode == e->key->key_quit && e->key->add_new_key != 1)
+			ft_free(e);
 	return (0);
 }
 
 int		ft_key_up(int keycode, t_env *e)
 {
-	if (keycode == 123)
-		e->left = 0;
-	else if (keycode == 124)
-		e->right = 0;
-	else if (keycode == 125)
-		e->down = 0;
-	else if (keycode == 126)
-		e->up = 0;
+	if (keycode == e->key->key_left)
+		e->key->key_left_v = 0;
+	else if (keycode == e->key->key_right)
+		e->key->key_right_v = 0;
+	else if (keycode == e->key->key_down)
+	{
+		e->key->time_menu = 0;
+		e->key->key_down_v = 0;
+	}
+	else if (keycode == e->key->key_up)
+	{
+		e->key->time_menu = 0;
+		e->key->key_up_v = 0;
+	}
+	else if (keycode == e->key->key_enter)
+		{
+			e->key->key_enter_c = 0;
+			e->key->key_enter_v = 0;
+		}
 	return (0);
 }
 
@@ -46,17 +80,20 @@ int		ft_red_cross(t_env *e)
 	return (0);
 }
 
-int		ft_wolf(t_env *env)
+int		ft_wolf(t_env *e)
 {
-	if (env->left == 1)
-		ft_tourne(2, env);
-	if (env->right == 1)
-		ft_tourne(-2, env);
-	if (env->down == 1)
-		ft_avance(-2, env);
-	if (env->up == 1)
-		ft_avance(2, env);
-	ft_raycast(env);
+	if (e->key->key_menu_v == 0)
+	{
+		if (e->key->key_left_v == 1)
+			ft_tourne(TOURNE, e);
+		if (e->key->key_right_v == 1)
+			ft_tourne(-TOURNE, e);
+		if (e->key->key_down_v == 1)
+			ft_avance(-AVANCE, e);
+		if (e->key->key_up_v == 1)
+			ft_avance(AVANCE, e);
+	}
+	ft_raycast(e);
 	return (0);
 }
 
