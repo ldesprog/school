@@ -108,15 +108,12 @@ int		**ft_split_to_int(char **tab, int i, int *j, t_env *e)
 		n++;
 		if (y != *j)
 		{
-			write(1, "error : map error\n", 18);
-			printf("%i, %i\n", y, *j);
-			exit(0);
+			ft_error_map(e, 3);
 		}
 	}
 	if (!ft_verif_map(map, *j, i, e))
 	{
-		write(1, "error : map error\n", 18);
-		exit(0);
+		ft_error_map(e, 3);
 	}
 	return (map);
 }

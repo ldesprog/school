@@ -19,18 +19,20 @@ void	ft_avance(int i, t_env *e)
 
 	x = 80 * i * cos(M_PI * e->player->dir / 180);
 	y = 80 * -1 * i * sin(M_PI * e->player->dir / 180);
-	if (e->map[(int)(e->player->pos->y + y) / e->size]
-		[(int)(e->player->pos->x) / e->size] == 2 || \
-		!e->map[(int)(e->player->pos->y + y) / e->size]
-		[(int)(e->player->pos->x) / e->size])
+	if (e->map[(int)(e->player->pos->y + y) / e->size][(int)(e->player->pos->x)
+		/ e->size] == 5 || e->map[(int)(e->player->pos->y + y)
+		/ e->size][(int)(e->player->pos->x) / e->size] == 2 ||
+		!e->map[(int)(e->player->pos->y + y) / e->size][(int)(e->player->pos->x)
+		/ e->size])
 	{
 		y = 20 * -1 * i * sin(M_PI * e->player->dir / 180);
 		e->player->pos->y += y;
 	}
-	if (e->map[(int)(e->player->pos->y) / e->size]
-		[(int)(e->player->pos->x + x) / e->size] == 2 || \
-		!e->map[(int)(e->player->pos->y) / e->size]
-		[(int)(e->player->pos->x + x) / e->size])
+	if (e->map[(int)(e->player->pos->y) / e->size][(int)(e->player->pos->x + x)
+		/ e->size] == 5 || e->map[(int)(e->player->pos->y)
+		/ e->size][(int)(e->player->pos->x + x) / e->size] == 2 ||
+		!e->map[(int)(e->player->pos->y) / e->size][(int)(e->player->pos->x + x)
+		/ e->size])
 	{
 		x = 20 * i * cos(M_PI * e->player->dir / 180);
 		e->player->pos->x += x;
@@ -57,22 +59,22 @@ void	ft_raycast_2(t_env *e, int x, float dir_x, float dir)
 	{
 		e->a = e->a * dir_cos;
 		if (dir > 180)
-			ft_ray(e, e->a, x, 1);
+			ft_ray(e, 1, x, 1);
 		else
-			ft_ray(e, e->a, x, 2);
+			ft_ray(e, 1, x, 2);
 	}
 	else if (e->a == -1 || (e->b != -1 && e->a > e->b))
 	{
 		e->b = e->b * dir_cos;
 		if (dir > 90 && dir < 270)
-			ft_ray(e, e->b, x, 3);
+			ft_ray(e, 2, x, 3);
 		else
-			ft_ray(e, e->b, x, 4);
+			ft_ray(e, 2, x, 4);
 	}
 	else if (e->a == e->b)
 	{
 		e->b = e->b * dir_cos;
-		ft_ray(e, e->b, x, e->c);
+		ft_ray(e, 2, x, e->c);
 	}
 }
 
@@ -98,7 +100,8 @@ void	ft_raycast(t_env *e)
 	float	add_angle;
 
 	e->img = mlx_new_image(e->mlx, e->weight, e->hight);
-	e->data = (int *)mlx_get_data_addr(e->img, &(e->bpp), &(e->s_line), &(e->endian));
+	e->data = (int *)mlx_get_data_addr(e->img, &(e->bpp),
+		&(e->s_line), &(e->endian));
 	e->dir_p = e->player->dir;
 	e->dir_x = e->angle / 2;
 	add_angle = (float)e->angle / e->weight;

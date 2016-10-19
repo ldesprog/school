@@ -8,7 +8,9 @@ SRC = ft_calc_ray.c \
 		get_next_line.c \
 		wolf.c \
 		ft_hud.c \
-		ft_print_key.c
+		ft_print_key.c \
+		ft_action.c \
+		ft_map.c
 
 OBJ = $(SRC:.c=.o)
 

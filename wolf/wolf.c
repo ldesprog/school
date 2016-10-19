@@ -19,11 +19,7 @@ void	ft_init_map(t_env *e, char *file)
 	char	**tab;
 
 	if ((fd = open(file, O_RDONLY)) < 0)
-	{
-		free(e->player);
-		free(e->player->pos);
-		exit(0);
-	}
+		ft_error_map(e, 2);
 	i = 0;
 	tab = (char **)malloc(sizeof(char *));
 	while (get_next_line(fd, &tab[i]) > 0)
@@ -37,20 +33,16 @@ void	ft_init_map(t_env *e, char *file)
 	close(fd);
 	fd = 0;
 	while (fd <= i)
-		free(tab[fd++]);
+	{
+		free(tab[fd]);
+		tab[fd++] = NULL;
+	}
 	free(tab);
+	tab = NULL;
 }
 
-void	ft_init_env(t_env *env)
+void	ft_init_key(t_env *env)
 {
-	env->hight = 800;
-	env->weight = 1200;
-	env->angle = 60;
-	env->dist_ecran = 500;
-	env->size = 1000;
-	env->player = (t_player *)malloc(sizeof(t_player));
-	env->player->pos = (t_pos *)malloc(sizeof(t_pos));
-	env->player->dir = 0;
 	env->key = (t_key *)malloc(sizeof(t_key));
 	env->key->key_quit = ECHAP;
 	env->key->key_menu = TAB;
@@ -68,6 +60,19 @@ void	ft_init_env(t_env *env)
 	env->key->add_new_key = 0;
 	env->key->time_menu = 0;
 	env->key->key_enter_c = 0;
+	env->key->key_action = ESPACE;
+}
+
+void	ft_init_env(t_env *env)
+{
+	env->hight = 800;
+	env->weight = 1200;
+	env->angle = 60;
+	env->dist_ecran = 500;
+	env->size = 1000;
+	env->player = (t_player *)malloc(sizeof(t_player));
+	env->player->pos = (t_pos *)malloc(sizeof(t_pos));
+	env->player->dir = 0;
 }
 
 int		ft_pos_player(int **map, int len, int high, t_env *e)
@@ -76,17 +81,12 @@ int		ft_pos_player(int **map, int len, int high, t_env *e)
 	int j;
 	int n;
 
-	if (len < 3 || high < 3)
-	{
-		write(1, "error : player can't spawn\n", 27);
-		return (0);
-	}
 	n = 0;
-	i = 1;
-	while (i < len)
+	i = 0;
+	while (++i < len)
 	{
-		j = 1;
-		while (j < high)
+		j = 0;
+		while (++j < high)
 		{
 			if (map[j][i] == 2)
 			{
@@ -94,14 +94,14 @@ int		ft_pos_player(int **map, int len, int high, t_env *e)
 				e->player->pos->y = j * 1000 + 500;
 				n++;
 			}
-			j++;
+			if (map[j][i] == 3)
+				e->end++;
 		}
-		i++;
 	}
-	if (n != 1)
+	if (n != 1 || (e->ac > 2 && e->end == 0) || e->end > 1)
 		return (0);
 	return (1);
-;}
+}
 
 int		ft_verif_map(int **map, int len, int high, t_env *e)
 {
@@ -124,20 +124,20 @@ int		ft_verif_map(int **map, int len, int high, t_env *e)
 		if (map[j++][len - 1] != 1)
 			return (0);
 	}
+	if (len < 3 || high < 3)
+		ft_error_map(e, 4);
 	if (!ft_pos_player(map, len, high, e))
 		return (0);
 	return (1);
 }
 
-int		main(void)
+int		main(int ac, char **av)
 {
 	t_env *e;
 
 	e = (t_env *)malloc(sizeof(t_env));
-	ft_init_env(e);
-	ft_init_map(e, "map.wolf");
+	ft_multi_map(e, ac, av);
 	e->mlx = mlx_init();
-	mlx_do_key_autorepeatoff(e->mlx);
 	e->win = mlx_new_window(e->mlx, e->weight, e->hight, "WOLF 3D");
 	ft_wolf(e);
 	mlx_hook(e->win, 2, 0, &ft_key_down, e);

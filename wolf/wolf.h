@@ -13,7 +13,6 @@
 #ifndef WOLF_H
 # define WOLF_H
 
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <math.h>
@@ -61,8 +60,7 @@
 
 /*
 ** COMPORTEMENT ETRANGE SUR CAPS
-*/ 
-
+*/
 # define KEY_A 0
 # define KEY_S 1
 # define KEY_D 2
@@ -75,7 +73,7 @@
 # define POINT_V 41
 # define APOSTROPHE 39
 # define RETURN 36
-# define SHIFT_G 257 
+# define SHIFT_G 257
 # define KEY_Z 6
 # define KEY_X 7
 # define KEY_C 8
@@ -123,41 +121,42 @@
 # define DOWN 125
 # define UP 126
 
-
 typedef struct	s_pos
 {
-	float x;
-	float y;
+	float		x;
+	float		y;
 }				t_pos;
 
 typedef struct	s_player
 {
-	t_pos *pos;
-	float dir;
+	t_pos		*pos;
+	float		dir;
 }				t_player;
 
 typedef struct	s_key
 {
-	int key_quit;
-	int key_menu;
-	int key_menu_v;
-	int key_enter;
-	int key_enter_v;
-	int key_enter_c;
-	int key_up;
-	int key_up_v;
-	int key_down;
-	int key_down_v;
-	int key_left;
-	int key_left_v;
-	int key_right;
-	int key_right_v;
-	int new_key;
-	int add_new_key;
-	int time_menu;
-	int pos_curseur;
-	int used;
-	int bad_key;
+	int			key_quit;
+	int			key_menu;
+	int			key_menu_v;
+	int			key_enter;
+	int			key_enter_v;
+	int			key_enter_c;
+	int			key_up;
+	int			key_up_v;
+	int			key_down;
+	int			key_down_v;
+	int			key_left;
+	int			key_left_v;
+	int			key_right;
+	int			key_right_v;
+	int			key_action;
+	int			key_action_v;
+	int			new_key;
+	int			add_new_key;
+	int			time_menu;
+	int			pos_curseur;
+	int			used;
+	int			bad_key;
 }				t_key;
 
 typedef struct	s_env
@@ -190,6 +189,10 @@ typedef struct	s_env
 	int			nb_case_a;
 	int			nb_case_b;
 	t_key		*key;
+	int			ac;
+	int			end;
+	int			nb;
+	char		**av;
 }				t_env;
 
 void			ft_raycast(t_env *env);
@@ -203,7 +206,7 @@ int				ft_key_down(int keycode, t_env *e);
 int				ft_key_up(int keycode, t_env *e);
 int				ft_red_cross(t_env *e);
 float			ft_abs(float n);
-void			ft_ray(t_env *e, float dist, int x, int color);
+void			ft_ray(t_env *e, int wall, int x, int color);
 float			ft_wall_hori(t_env *e, float dir);
 float			ft_wall_verti(t_env *e, float dir);
 char			**ft_remalloc_tab(char **tab, int n);
@@ -212,5 +215,15 @@ int				ft_verif_map(int **map, int len, int high, t_env *e);
 void			ft_curseur(t_env *e);
 void			ft_menu(t_env *e);
 char			*ft_print_key(int key, t_env *e, int *i, int ligne);
+void			ft_action(t_env *e);
+void			ft_init_pos(t_pos *pos, float x, float y);
+void			ft_init_wall_hori(t_env *e, float dir, t_pos *a, t_pos *t);
+void			ft_init_wall_verti(t_env *e, float dir, t_pos *b, t_pos *t);
+void			ft_error_map(t_env *e, int error);
+void			ft_multi_map(t_env *e, int ac, char **av);
+void			ft_free_map(t_env *e);
+void			ft_init_env(t_env *env);
+void			ft_init_map(t_env *e, char *file);
+void			ft_init_key(t_env *env);
 
 #endif

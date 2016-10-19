@@ -14,7 +14,6 @@
 
 int		ft_key_down(int keycode, t_env *e)
 {
-	printf("%i\n", keycode);
 	if (e->key->add_new_key == 0)
 	{
 		if (keycode == e->key->key_left)
@@ -34,6 +33,8 @@ int		ft_key_down(int keycode, t_env *e)
 		}
 		else if (keycode == e->key->key_menu && e->key->key_menu_v == 1)
 			e->key->key_menu_v = 0;
+		else if (keycode == e->key->key_action)
+			ft_action(e);
 	}
 	else if (e->key->add_new_key == 1)
 	{
@@ -45,8 +46,10 @@ int		ft_key_down(int keycode, t_env *e)
 		e->key->key_enter_c++;
 		e->key->key_enter_v = 1;
 	}
-	if (keycode == e->key->key_quit && e->key->add_new_key != 1)
-			ft_free(e);
+	if (keycode == e->key->key_quit && e->key->key_menu_v == 1 && e->key->add_new_key == 0)
+		e->key->key_menu_v = 0;
+	else if (keycode == e->key->key_quit && e->key->add_new_key == 0)
+		ft_free(e);
 	return (0);
 }
 
@@ -67,10 +70,10 @@ int		ft_key_up(int keycode, t_env *e)
 		e->key->key_up_v = 0;
 	}
 	else if (keycode == e->key->key_enter)
-		{
-			e->key->key_enter_c = 0;
-			e->key->key_enter_v = 0;
-		}
+	{
+		e->key->key_enter_c = 0;
+		e->key->key_enter_v = 0;
+	}
 	return (0);
 }
 
