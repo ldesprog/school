@@ -35,24 +35,14 @@ char	**ft_remalloc_tab(char **tab, int n)
 	return (new);
 }
 
-int		ft_len_str(char *str)
+int		ft_split_2(int *n, int i, char *str)
 {
-	int n;
-	int i;
-
-	i = 0;
-	n = 0;
+	(*n)++;
+	while (str[i] && str[i] != ' ')
+		i++;
 	while (str[i] == ' ')
 		i++;
-	while (str[i])
-	{
-		n++;
-		while (str[i] && str[i] != ' ')
-			i++;
-		while (str[i] == ' ')
-			i++;
-	}
-	return (n);
+	return (i);
 }
 
 int		*ft_split(char *str, int j, int *n)
@@ -64,7 +54,6 @@ int		*ft_split(char *str, int j, int *n)
 	map = (int *)malloc(sizeof(int) * j);
 	i = 0;
 	*n = 0;
-	x = 0;
 	while (str[i] == ' ')
 		i++;
 	while (str[i])
@@ -72,22 +61,15 @@ int		*ft_split(char *str, int j, int *n)
 		x = 0;
 		if (str[i] == 48 && (str[i + 1] == ' ' || str[i + 1] == '\n'))
 			map[*n] = 0;
-		while (str[i] >= '1' && str[i] <= '9')
-		{
+		while (str[i] >= '1' && str[i] <= '9' && ++x)
 			i++;
-			x++;
-		}
 		if (x > 0)
 			i--;
 		if (x == 1 && str[i] >= '1' && str[i] <= '9')
 			map[*n] = str[i] - '0';
 		else if (str[i] != 48)
 			map[*n] = 1;
-		(*n)++;
-		while (str[i] && str[i] != ' ')
-			i++;
-		while (str[i] == ' ')
-			i++;
+		i = ft_split_2(n, i, str);
 	}
 	return (map);
 }

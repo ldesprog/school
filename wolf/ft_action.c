@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_action.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldesprog <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/10/19 17:24:28 by ldesprog          #+#    #+#             */
+/*   Updated: 2016/10/19 17:24:30 by ldesprog         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "wolf.h"
 
 void	ft_change_map(t_env *e)
@@ -17,20 +29,11 @@ void	ft_destroy_case(t_env *e, int mode)
 	t_pos t;
 
 	if (mode == 1)
-	{
 		ft_init_wall_hori(e, e->player->dir, &a, &t);
-		/*while (a.y >= 0 && a.y < e->map_hight && a.x >= 0 && a.x < e->map_weight
-			&& e->map[(int)a.y / e->size][(int)a.x / e->size] != 4)
-			ft_init_pos(&a, a.x + t.x, a.y + t.y);*/
-	}
 	else
-	{
 		ft_init_wall_verti(e, e->player->dir, &a, &t);
-		/*while (a.y >= 0 && a.y < e->map_hight && a.x >= 0 && a.x < e->map_weight
-			&& e->map[(int)a.y / e->size][(int)a.x / e->size] == 4)
-			ft_init_pos(&a, a.x + t.x, a.y + t.y);*/
-	}
-	e->map[(int)a.y / e->size][(int)a.x / e->size] = 0;
+	if (e->map[(int)a.y / e->size][(int)a.x / e->size] == 4)
+		e->map[(int)a.y / e->size][(int)a.x / e->size] = 0;
 }
 
 void	ft_action_3(t_env *e, float dist, int nb_case, int mode)

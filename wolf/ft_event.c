@@ -12,6 +12,25 @@
 
 #include "wolf.h"
 
+void	ft_key_down_2(int keycode, t_env *e)
+{
+	if (e->key->add_new_key == 1)
+	{
+		e->key->add_new_key = 2;
+		e->key->new_key = keycode;
+	}
+	if (keycode == e->key->key_enter)
+	{
+		e->key->key_enter_c++;
+		e->key->key_enter_v = 1;
+	}
+	if (keycode == e->key->key_quit && e->key->key_menu_v == 1
+		&& e->key->add_new_key == 0)
+		e->key->key_menu_v = 0;
+	else if (keycode == e->key->key_quit && e->key->add_new_key == 0)
+		ft_free(e);
+}
+
 int		ft_key_down(int keycode, t_env *e)
 {
 	if (e->key->add_new_key == 0)
@@ -33,23 +52,10 @@ int		ft_key_down(int keycode, t_env *e)
 		}
 		else if (keycode == e->key->key_menu && e->key->key_menu_v == 1)
 			e->key->key_menu_v = 0;
-		else if (keycode == e->key->key_action)
+		else if (keycode == e->key->key_action && e->key->key_menu_v == 0)
 			ft_action(e);
 	}
-	else if (e->key->add_new_key == 1)
-	{
-		e->key->add_new_key = 2;
-		e->key->new_key = keycode;
-	}
-	if (keycode == e->key->key_enter)
-	{
-		e->key->key_enter_c++;
-		e->key->key_enter_v = 1;
-	}
-	if (keycode == e->key->key_quit && e->key->key_menu_v == 1 && e->key->add_new_key == 0)
-		e->key->key_menu_v = 0;
-	else if (keycode == e->key->key_quit && e->key->add_new_key == 0)
-		ft_free(e);
+	ft_key_down_2(keycode, e);
 	return (0);
 }
 
@@ -74,12 +80,6 @@ int		ft_key_up(int keycode, t_env *e)
 		e->key->key_enter_c = 0;
 		e->key->key_enter_v = 0;
 	}
-	return (0);
-}
-
-int		ft_red_cross(t_env *e)
-{
-	ft_free(e);
 	return (0);
 }
 

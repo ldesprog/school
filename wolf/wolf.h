@@ -195,35 +195,103 @@ typedef struct	s_env
 	char		**av;
 }				t_env;
 
-void			ft_raycast(t_env *env);
-void			ft_raycast_1(t_env *e, int x, float dir_p, float dir_x);
-int				ft_wolf(t_env *e);
-int				get_next_line(int fd, char **line);
-void			ft_free(t_env *env);
+/*
+** ft_wolf
+*/
+void			ft_init_map(t_env *e, char *file);
+void			ft_init_env(t_env *env);
+int				ft_pos_player(int **map, int len, int high, t_env *e);
+int				ft_verif_map(int **map, int len, int high, t_env *e);
+int				main(int ac, char **av);
+
+/*
+** ft_raycast
+*/
 void			ft_avance(int i, t_env *e);
 void			ft_tourne(int i, t_env *e);
-int				ft_key_down(int keycode, t_env *e);
-int				ft_key_up(int keycode, t_env *e);
+void			ft_raycast_2(t_env *e, int x, float dir_x, float dir);
+void			ft_raycast_1(t_env *e, int x, float dir_p, float dir_x);
+void			ft_raycast(t_env *e);
+
+/*
+** ft_print_key
+*/
+char			*ft_print_key_error(t_env *e, int *i, int ligne);
+char			*ft_print_key_8(int key, t_env *e, int *i, int ligne);
+char			*ft_print_key_7(int key, t_env *e, int *i, int ligne);
+char			*ft_print_key_6(int key, t_env *e, int *i, int ligne);
+char			*ft_print_key_5(int key, t_env *e, int *i, int ligne);
+char			*ft_print_key_4(int key, t_env *e, int *i, int ligne);
+char			*ft_print_key_3(int key, t_env *e, int *i, int ligne);
+char			*ft_print_key_2(int key, t_env *e, int *i, int ligne);
+char			*ft_print_key(int key, t_env *e, int *i, int ligne);
+
+/*
+** ft_paint
+*/
+void			ft_color(int c, int *color, t_env *e, int wall);
+void			ft_paint(t_env e, int color);
+void			ft_ray(t_env *e, int wall, int x, int color);
+
+/*
+** ft_map
+*/
+void			ft_error_map(t_env *e, int error);
+void			ft_free_map(t_env *e);
+void			ft_multi_map(t_env *e, int ac, char **av);
+
+/*
+** ft_hud
+*/
+int				ft_col_str(t_env *e, int ligne, int mode);
+void			ft_texte(t_env *e);
+void			ft_texte_2(t_env *e);
+void			ft_event_hud(t_key *key);
+int				ft_check_key(t_env *e);
+void			ft_valide_key(t_env *e);
+void			ft_curseur(t_env *e);
+void			ft_cadre(t_env *e);
+void			ft_menu_2(t_env *e);
+void			ft_menu(t_env *e);
+
+/*
+** ft_fonc
+*/
+int				ft_len_str(char *str);
+void			ft_init_key(t_env *env);
 int				ft_red_cross(t_env *e);
 float			ft_abs(float n);
-void			ft_ray(t_env *e, int wall, int x, int color);
-float			ft_wall_hori(t_env *e, float dir);
-float			ft_wall_verti(t_env *e, float dir);
 char			**ft_remalloc_tab(char **tab, int n);
+int				ft_split_2(int *n, int i, char *str);
+int				*ft_split(char *str, int j, int *n);
 int				**ft_split_to_int(char **tab, int i, int *j, t_env *e);
-int				ft_verif_map(int **map, int len, int high, t_env *e);
-void			ft_curseur(t_env *e);
-void			ft_menu(t_env *e);
-char			*ft_print_key(int key, t_env *e, int *i, int ligne);
-void			ft_action(t_env *e);
+void			ft_init_key_v(t_env *e);
+
+/*
+** ft_event
+*/
+void			ft_key_down_2(int keycode, t_env *e);
+int				ft_key_down(int keycode, t_env *e);
+int				ft_key_up(int keycode, t_env *e);
+int				ft_wolf(t_env *e);
+void			ft_free(t_env *env);
+
+/*
+** ft_calc_ray
+*/
 void			ft_init_pos(t_pos *pos, float x, float y);
 void			ft_init_wall_hori(t_env *e, float dir, t_pos *a, t_pos *t);
+float			ft_wall_hori(t_env *e, float dir);
 void			ft_init_wall_verti(t_env *e, float dir, t_pos *b, t_pos *t);
-void			ft_error_map(t_env *e, int error);
-void			ft_multi_map(t_env *e, int ac, char **av);
-void			ft_free_map(t_env *e);
-void			ft_init_env(t_env *env);
-void			ft_init_map(t_env *e, char *file);
-void			ft_init_key(t_env *env);
+float			ft_wall_verti(t_env *e, float dir);
+
+/*
+** ft_action
+*/
+void			ft_change_map(t_env *e);
+void			ft_destroy_case(t_env *e, int mode);
+void			ft_action_3(t_env *e, float dist, int nb_case, int mode);
+void			ft_action_2(t_env *e);
+void			ft_action(t_env *e);
 
 #endif

@@ -41,28 +41,6 @@ void	ft_init_map(t_env *e, char *file)
 	tab = NULL;
 }
 
-void	ft_init_key(t_env *env)
-{
-	env->key = (t_key *)malloc(sizeof(t_key));
-	env->key->key_quit = ECHAP;
-	env->key->key_menu = TAB;
-	env->key->key_menu_v = 0;
-	env->key->key_enter = RETURN;
-	env->key->key_enter_v = 0;
-	env->key->key_up = UP;
-	env->key->key_up_v = 0;
-	env->key->key_down = DOWN;
-	env->key->key_down_v = 0;
-	env->key->key_left = LEFT;
-	env->key->key_left_v = 0;
-	env->key->key_right = RIGHT;
-	env->key->key_right_v = 0;
-	env->key->add_new_key = 0;
-	env->key->time_menu = 0;
-	env->key->key_enter_c = 0;
-	env->key->key_action = ESPACE;
-}
-
 void	ft_init_env(t_env *env)
 {
 	env->hight = 800;

@@ -47,9 +47,11 @@ float	ft_wall_hori(t_env *e, float dir)
 	while (a.y >= 0 && a.y < e->map_hight && a.x >= 0 && a.x < e->map_weight
 		&& (!(e->nb_case_a = e->map[(int)a.y / e->size][(int)a.x / e->size]) \
 		|| e->map[(int)a.y / e->size][(int)a.x / e->size] == 2))
+	{
 		ft_init_pos(&a, a.x + t.x, a.y + t.y);
-	if (a.y < 0 || a.y >= e->map_hight || a.x < 0 || a.x >= e->map_weight)
-		return (-1);
+		if (a.y < 0 || a.y >= e->map_hight || a.x < 0 || a.x >= e->map_weight)
+			return (-1);
+	}
 	if (dir < 180)
 	{
 		return (sqrt(ft_abs(pow((e->player->pos->y - a.y - 1), 2))
@@ -88,9 +90,11 @@ float	ft_wall_verti(t_env *e, float dir)
 	while (b.y >= 0 && b.y < e->map_hight && b.x >= 0 && b.x < e->map_weight
 		&& (!(e->nb_case_b = e->map[(int)b.y / e->size][(int)b.x / e->size]) \
 		|| e->map[(int)b.y / e->size][(int)b.x / e->size] == 2))
+	{
 		ft_init_pos(&b, b.x + t.x, b.y + t.y);
-	if (b.y < 0 || b.y >= e->map_hight || b.x < 0 || b.x >= e->map_weight)
-		return (-1);
+		if (b.y < 0 || b.y >= e->map_hight || b.x < 0 || b.x >= e->map_weight)
+			return (-1);
+	}
 	if (dir > 90 && dir < 270)
 	{
 		return (sqrt(ft_abs(pow((e->player->pos->y - b.y), 2))
