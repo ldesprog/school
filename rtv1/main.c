@@ -27,6 +27,7 @@ void	ft_init(t_env *e)
 	//on pensera a changer le type ici aussi
 	e->object = (t_sphere *)ft_malloc(sizeof(t_sphere));
 	e->object->pos = (t_vector *)ft_malloc(sizeof(t_vector));
+	e->object->radius = 20;
 	e->mlx->height = 480;
 	e->mlx->width = 640;
 }
@@ -38,18 +39,16 @@ void	ft_ray(int x, int y, t_env *e)
 
 	e->b->x = x - e->mlx->width / 2;
 	e->b->y = y - e->mlx->height / 2;
-	e->b->z = (e->mlx->width / (2 * tan(30/2)));//30 : distance focale focale
+	e->b->z = -1 * (e->mlx->width / (2 * tan(30/2)));//30 : distance focale focale
 	ft_vector_normalize(e->b);
 	e->ray_D->x = e->b->x - e->ray_O->x;
 	e->ray_D->y = e->b->y - e->ray_O->y;
 	e->ray_D->z = e->b->z - e->ray_O->z;
 	dist = DIST_MAX;
 	//faire une boucle pour gerer une mutitude d'object
-	printf("%f, %f, %f\n", e->ray_O->x, e->ray_O->y, e->ray_O->z);
-	printf("%f, %f, %f\n", e->ray_D->x, e->ray_D->y, e->ray_D->z);
+	//printf("%f, %f, %f\n", e->ray_O->x, e->ray_O->y, e->ray_O->z);
+	//printf("%f, %f, %f\n", e->ray_D->x, e->ray_D->y, e->ray_D->z);
 	intersection = ft_intersection(e->object, e->ray_O, e->ray_D, &dist);
-	if (intersection > 0)
-		printf("on a trouver une intersection\n");
 	if (intersection > 0 && dist < DIST_MAX)
 	{
 		//on lance le calcul pour la lumiere

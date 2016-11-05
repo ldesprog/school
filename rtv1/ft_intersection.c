@@ -12,7 +12,9 @@ int		ft_inter_sphere(t_sphere *sphere, t_vector *ray_O, t_vector *ray_D, double 
 	dist = ft_vector_copy(sphere->pos);
 	dist = ft_vector_sub(dist, ray_O);
 	b = ft_vector_dot(ray_D, dist);
+	//printf("%f\n", b);
 	d = b * b - ft_vector_dot(dist, dist) + sphere->radius * sphere->radius;
+	//printf("%f\n", d);
 	if (d < 0)
 		return (0);
 	t0 = b - sqrt(d);
