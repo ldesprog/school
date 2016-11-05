@@ -35,21 +35,30 @@ char	**ft_remalloc_tab(char **tab, int n)
 	return (new);
 }
 
-int		ft_split_2(int *n, int i, char *str)
+int		ft_split_2(char *str, int *i, int *a, t_env *e)
 {
-	(*n)++;
-	while (str[i] && str[i] != ' ')
-		i++;
-	while (str[i] == ' ')
-		i++;
-	return (i);
+	int b;
+
+	*a = 0;
+	b = 0;
+	if (str[*i] < '0' || str[*i] > '9')
+		ft_error_map(e, 3);
+	while (str[*i] >= '0' && str[*i] <= '9')
+	{
+		*a += str[*i] - '0';
+		if (str[*i] >= '1' || b > 0)
+			b++;
+		(*i)++;
+	}
+	return (b);
 }
 
-int		*ft_split(char *str, int j, int *n)
+int		*ft_split(char *str, int j, int *n, t_env *e)
 {
 	int i;
 	int *map;
-	int x;
+	int a;
+	int b;
 
 	map = (int *)malloc(sizeof(int) * j);
 	i = 0;
@@ -58,18 +67,16 @@ int		*ft_split(char *str, int j, int *n)
 		i++;
 	while (str[i])
 	{
-		x = 0;
-		if (str[i] == 48 && (str[i + 1] == ' ' || str[i + 1] == '\n'))
-			map[*n] = 0;
-		while (str[i] >= '1' && str[i] <= '9' && ++x)
-			i++;
-		if (x > 0)
-			i--;
-		if (x == 1 && str[i] >= '1' && str[i] <= '9')
-			map[*n] = str[i] - '0';
-		else if (str[i] != 48)
+		b = ft_split_2(str, &i, &a, e);
+		if (b > 1)
 			map[*n] = 1;
-		i = ft_split_2(n, i, str);
+		else if (a > 5)
+			map[*n] = 1;
+		else
+			map[*n] = a;
+		while (str[i] == ' ')
+			i++;
+		*n += 1;
 	}
 	return (map);
 }
@@ -86,7 +93,7 @@ int		**ft_split_to_int(char **tab, int i, int *j, t_env *e)
 	while (n < i)
 	{
 		y = 0;
-		map[n] = ft_split(tab[n], *j, &y);
+		map[n] = ft_split(tab[n], *j, &y, e);
 		n++;
 		if (y != *j)
 		{

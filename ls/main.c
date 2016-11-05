@@ -16,7 +16,7 @@ void	main_file2(char *argv, struct stat stat_arg, t_opt opt)
 {
 	char	***out;
 
-	out = (char ***)malloc(sizeof(char **) * 2);
+	out = (char ***)ft_malloc(sizeof(char **) * 2);
 	out[1] = NULL;
 	if (opt.l)
 	{
@@ -92,7 +92,7 @@ int		main(int argc, char **argv)
 		ft_ls(".", opt);
 		return (0);
 	}
-	arg = (char **)ft_malloc(sizeof(char *), argc - i + 1);
+	arg = (char **)ft_malloc(sizeof(char *) * (argc - i + 1));
 	arg[argc - i] = NULL;
 	j = i;
 	while (i < argc)
@@ -105,21 +105,11 @@ int		main(int argc, char **argv)
 	return (0);
 }
 
-void	*ft_malloc(int type, size_t len)
-{
-	void	*new;
-
-	new = malloc(type * len);
-	if (!new)
-		exit(0);
-	return (new);
-}
-
 char	*ft_name(char *arbo, char *nom, struct stat *file)
 {
 	char	*name;
 
-	name = (char *)ft_malloc(sizeof(char), (strlen(arbo) + strlen(nom) + 2));
+	name = (char *)ft_malloc(sizeof(char) * (strlen(arbo) + strlen(nom) + 2));
 	name[0] = '\0';
 	strcat(name, arbo);
 	if (name[strlen(name) - 1] != '/')

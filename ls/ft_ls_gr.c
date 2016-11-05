@@ -16,7 +16,7 @@ char	*ft_name_gr(char *arbo, char *name)
 {
 	char	*name2;
 
-	name2 = (char *)ft_malloc(sizeof(char), (strlen(name) + strlen(arbo) + 2));
+	name2 = (char *)ft_malloc(sizeof(char) * (strlen(name) + strlen(arbo) + 2));
 	name2[0] = '\0';
 	strcat(name2, arbo);
 	if (name2[strlen(name2) - 1] != '/')
@@ -32,7 +32,7 @@ void	ft_ls_gr_2(t_lst_dir *find, t_lst_dir *finder, char *name)
 	find = finder;
 	while (find->next)
 		find = find->next;
-	new = (t_lst_dir *)ft_malloc(sizeof(t_lst_dir), 1);
+	new = (t_lst_dir *)ft_malloc(sizeof(t_lst_dir));
 	new->name = name;
 	new->next = NULL;
 	new->prev = find;
@@ -65,6 +65,8 @@ void	ft_ls_gr(t_lst_dir *finder, DIR *dir, t_opt opt)
 					closedir(dir2);
 				}
 			}
+			else
+				free(name);
 		}
 }
 
@@ -129,8 +131,8 @@ int		ft_tri_gr_t_2(char *s1, char *s2, t_lst_dir *file)
 
 	index.i = ft_strlen(s1);
 	index.j = ft_strlen(s2);
-	sa = (char *)ft_malloc(sizeof(char), index.i);
-	sb = (char *)ft_malloc(sizeof(char), index.j);
+	sa = (char *)ft_malloc(sizeof(char) * index.i);
+	sb = (char *)ft_malloc(sizeof(char) * index.j);
 	index.i = 0;
 	while (s1[index.i] == s2[index.i])
 	{

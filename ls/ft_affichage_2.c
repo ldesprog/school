@@ -12,12 +12,12 @@
 
 #include "ft_ls.h"
 
-char	**ft_remalloc(char **save_file, int nb)
+char	**ft_remalloc_tab(char **save_file, int nb)
 {
 	char	**new;
 	int		i;
 
-	new = (char **)ft_malloc(sizeof(char *), (nb + 1));
+	new = (char **)ft_malloc(sizeof(char *) * (nb + 1));
 	i = 0;
 	while (i < nb)
 	{

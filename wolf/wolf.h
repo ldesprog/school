@@ -262,8 +262,8 @@ void			ft_init_key(t_env *env);
 int				ft_red_cross(t_env *e);
 float			ft_abs(float n);
 char			**ft_remalloc_tab(char **tab, int n);
-int				ft_split_2(int *n, int i, char *str);
-int				*ft_split(char *str, int j, int *n);
+int				ft_split_2(char *str, int *i, int *a, t_env *e);
+int				*ft_split(char *str, int j, int *n, t_env *e);
 int				**ft_split_to_int(char **tab, int i, int *j, t_env *e);
 void			ft_init_key_v(t_env *e);
 

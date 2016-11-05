@@ -18,7 +18,7 @@ char	*ft_binaire(char *str)
 	int		i;
 	int		nb;
 
-	new = (char *)ft_malloc(sizeof(char), 10);
+	new = (char *)ft_malloc(sizeof(char) * 10);
 	i = 0;
 	while (str[i])
 	{
@@ -87,8 +87,8 @@ char	*ft_droit(struct stat stat_file)
 	int		i;
 	char	*bin;
 
-	perm = (char *)ft_malloc(sizeof(char), 12);
-	perm2 = (char *)ft_malloc(sizeof(char), 8);
+	perm = (char *)ft_malloc(sizeof(char) * 12);
+	perm2 = (char *)ft_malloc(sizeof(char) * 8);
 	nb = ft_octal((int)stat_file.st_mode);
 	perm2 = ft_itoa(nb);
 	nb = strlen(perm2) - 1;
@@ -113,7 +113,7 @@ char	*ft_remalloc_char3(char *line, int nb)
 	int		i;
 	int		j;
 
-	new = (char *)ft_malloc(sizeof(char), (nb + 1));
+	new = (char *)ft_malloc(sizeof(char) * (nb + 1));
 	j = nb - strlen(line);
 	i = -1;
 	while (line[++i])
@@ -132,7 +132,7 @@ char	*ft_remalloc_char2(char *line, int nb)
 	int		i;
 	int		j;
 
-	new = (char *)ft_malloc(sizeof(char), (nb + 1));
+	new = (char *)ft_malloc(sizeof(char) * (nb + 1));
 	j = nb - strlen(line);
 	i = 0;
 	while (i < j)
@@ -145,12 +145,12 @@ char	*ft_remalloc_char2(char *line, int nb)
 	return (new);
 }
 
-char	***ft_remalloc_tab(char ***save_file, int nb)
+char	***ft_remalloc_3_tab(char ***save_file, int nb)
 {
 	char	***new;
 	int		i;
 
-	new = (char ***)ft_malloc(sizeof(char **), (nb + 2));
+	new = (char ***)ft_malloc(sizeof(char **) * (nb + 2));
 	i = 0;
 	while (i < nb)
 	{
@@ -194,7 +194,7 @@ char	*ft_verif_time(struct stat stat_file)
 {
 	char	**year;
 
-	year = (char **)ft_malloc(sizeof(char), 13);
+	year = (char **)ft_malloc(sizeof(char) * 13);
 	year = ft_strsplit(ctime(&stat_file.st_mtime), ' ');
 	if (((int)stat_file.st_mtime + 15778463) >= time(NULL)
 		&& ((int)stat_file.st_mtime) <= time(NULL))
@@ -266,7 +266,7 @@ void	ft_ls_space_file(char ***out, dev_t id_perif, int i)
 	str = ft_itoa(major);
 	out[i][5] = ft_itoa(minor);
 	j = ft_strlen(str);
-	out[i][4] = (char *)ft_malloc(sizeof(char), j + 2);
+	out[i][4] = (char *)ft_malloc(sizeof(char) * (j + 2));
 	j = 0;
 	while (str[j])
 	{
@@ -284,13 +284,13 @@ int		ft_ls_l_2(int i, char ***out, struct stat stat_file, char *name)
 	struct group	*gid;
 	char			**file2;
 
-	out[i] = (char **)ft_malloc(sizeof(char *), 13);
+	out[i] = (char **)ft_malloc(sizeof(char *) * 13);
 	out[i][0] = ft_droit(stat_file);
 	out[i][1] = ft_itoa((long)stat_file.st_nlink);
 	uid = getpwuid(stat_file.st_uid);
-	out[i][2] = (char *)ft_malloc(sizeof(char), (strlen(uid->pw_name) + 1));
+	out[i][2] = (char *)ft_malloc(sizeof(char) * (strlen(uid->pw_name) + 1));
 	gid = getgrgid(stat_file.st_gid);
-	out[i][3] = (char *)ft_malloc(sizeof(char), (strlen(gid->gr_name) + 1));
+	out[i][3] = (char *)ft_malloc(sizeof(char) * (strlen(gid->gr_name) + 1));
 	out[i][2] = ft_strcpy(out[i][2], uid->pw_name);
 	out[i][3] = ft_strcpy(out[i][3], gid->gr_name);
 	if (S_ISCHR(stat_file.st_mode) || S_ISBLK(stat_file.st_mode))
@@ -298,14 +298,14 @@ int		ft_ls_l_2(int i, char ***out, struct stat stat_file, char *name)
 	else
 	{
 		out[i][5] = ft_itoa((int)stat_file.st_size);
-		out[i][4] = (char *)ft_malloc(sizeof(char), 1);
+		out[i][4] = (char *)ft_malloc(sizeof(char));
 		out[i][4][0] = 0;
 	}
 	file2 = ft_strsplit(ctime(&stat_file.st_mtime), ' ');
 	out[i][6] = file2[2];
 	out[i][7] = file2[1];
 	out[i][8] = ft_verif_time(stat_file);
-	out[i][9] = (char *)ft_malloc(sizeof(char), (strlen(name) + 1));
+	out[i][9] = (char *)ft_malloc(sizeof(char) * (strlen(name) + 1));
 	ft_strcpy(out[i][9], name);
 	out[i][10] = NULL;
 	return ((int)stat_file.st_blocks);
@@ -323,20 +323,20 @@ void	ft_ls_l(DIR *dir, t_lst_dir *finder, t_opt opt)
 
 	nb_blocks = 0;
 	i = -1;
-	out = (char***)ft_malloc(sizeof(char**), 1);
+	out = (char***)ft_malloc(sizeof(char**));
 	out[0] = NULL;
-	name_link = (char *)malloc(sizeof(char) * 1024);
+	name_link = (char *)ft_malloc(sizeof(char) * 1024);
 	while ((file = readdir(dir)))
 	{
 		if ((opt.a == 0 && file->d_name[0] != '.') || opt.a == 1)
 		{
-			out = ft_remalloc_tab(out, ++i);
+			out = ft_remalloc_3_tab(out, ++i);
 			name_full = ft_name(finder->name, file->d_name, &stat_file);
 			nb_blocks += ft_ls_l_2(i, out, stat_file, file->d_name);
 			if (S_ISLNK(stat_file.st_mode))
 			{
 				(void)readlink(name_full, name_link, 1024);
-				out[i][10] = (char *)malloc(sizeof(char) * (strlen(name_link) + 4));
+				out[i][10] = (char *)ft_malloc(sizeof(char) * (strlen(name_link) + 4));
 				strcat(strcat(out[i][10], "-> "), (name_link));
 				ft_bzero(name_link, 1024);
 				out[i][11] = NULL;

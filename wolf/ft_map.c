@@ -26,11 +26,6 @@ void	ft_error_map(t_env *e, int error)
 		write(1, "map error : ", 12);
 		ft_putstr(e->av[e->nb]);
 	}
-	else if (error == 4)
-	{
-		write(1, "player can't spawn : ", 21);
-		ft_putstr(e->av[e->nb]);
-	}
 	write(1, "\n", 1);
 	exit(0);
 }

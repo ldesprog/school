@@ -17,7 +17,7 @@ char	*ft_remalloc_char(char *line, int nb)
 	char	*new;
 	int		i;
 
-	new = (char *)ft_malloc(sizeof(char), (nb + 1));
+	new = (char *)ft_malloc(sizeof(char) * (nb + 1));
 	i = 0;
 	while (line[i])
 	{
@@ -28,6 +28,7 @@ char	*ft_remalloc_char(char *line, int nb)
 		new[i++] = ' ';
 	new[i] = '\0';
 	free(line);
+	line = NULL;
 	return (new);
 }
 
@@ -102,15 +103,15 @@ void	ft_ls_normal(DIR *dir, t_opt opt, t_lst_dir *finder)
 	int				i;
 	int				j;
 
-	save_file = (char **)ft_malloc(sizeof(char *), 1);
+	save_file = (char **)ft_malloc(sizeof(char *));
 	save_file[0] = NULL;
 	i = 0;
 	size_max = 8;
 	while ((file = readdir(dir)))
 		if ((opt.a == 0 && file->d_name[0] != '.') || opt.a == 1)
 		{
-			save_file = ft_remalloc(save_file, i + 1);
-			save_file[i] = (char *)ft_malloc(sizeof(char), 
+			save_file = ft_remalloc_tab(save_file, i + 1);
+			save_file[i] = (char *)ft_malloc(sizeof(char) * 
 				(strlen(file->d_name) + 1));
 			j = -1;
 			while (file->d_name[++j])
@@ -121,4 +122,37 @@ void	ft_ls_normal(DIR *dir, t_opt opt, t_lst_dir *finder)
 			i++;
 		}
 	ft_ls_normal_2(opt, finder, save_file, size_max);
+	i = 0;
+	while (save_file[i])
+	{
+		free(save_file[i]);
+		save_file[i] = NULL;
+		i++;
+	}
+	free(save_file);
+	save_file = NULL;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

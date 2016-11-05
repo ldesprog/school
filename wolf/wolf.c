@@ -103,7 +103,7 @@ int		ft_verif_map(int **map, int len, int high, t_env *e)
 			return (0);
 	}
 	if (len < 3 || high < 3)
-		ft_error_map(e, 4);
+		ft_error_map(e, 3);
 	if (!ft_pos_player(map, len, high, e))
 		return (0);
 	return (1);

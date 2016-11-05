@@ -68,7 +68,7 @@ char	*ft_sep_name(char *rep)
 		i--;
 		j++;
 	}
-	name = (char *)ft_malloc(sizeof(char), j);
+	name = (char *)ft_malloc(sizeof(char) * j);
 	i++;
 	j = 0;
 	while (rep[i])
@@ -83,8 +83,10 @@ int		ft_ls(char *directory, t_opt opt)
 	int			i;
 	char		*name;
 
-	finder = (t_lst_dir *)ft_malloc(sizeof(t_lst_dir), 1);
+	finder = (t_lst_dir *)ft_malloc(sizeof(t_lst_dir));
+	find = finder;
 	ft_ls_2(finder, opt, directory);
+	sleep(10);
 	i = 0;
 	while (finder)
 	{
@@ -99,5 +101,6 @@ int		ft_ls(char *directory, t_opt opt)
 			i = ft_ls_3(i, opt, finder, name);
 		finder = finder->next;
 	}
+	sleep(10);
 	return (0);
 }

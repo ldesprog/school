@@ -16,7 +16,7 @@ void	ft_illegal_opt(char c)
 {
 	char	*str;
 
-	str = (char *)malloc(sizeof(char) * 2);
+	str = (char *)ft_malloc(sizeof(char) * 2);
 	str[0] = c;
 	str[1] = 0;
 	ft_printf("ls : illegal option -- %s\n", str, NULL, NULL);

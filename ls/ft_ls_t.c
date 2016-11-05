@@ -31,7 +31,7 @@ void	ft_ls_t(char **tab, char *arbo)
 	char		*tab2;
 
 	j = 0;
-	tab2 = (char *)ft_malloc(sizeof(char), 1);
+	tab2 = (char *)ft_malloc(sizeof(char));
 	if (tab[j] == NULL)
 		return ;
 	while (tab[++j])
@@ -60,7 +60,7 @@ void	ft_ls_l_t(char ***tab, char *arbo)
 	char		**tab2;
 
 	j = 0;
-	tab2 = (char **)ft_malloc(sizeof(char *), 1);
+	tab2 = (char **)ft_malloc(sizeof(char *));
 	while (tab[++j])
 	{
 		ft_name(arbo, tab[j][9], &file);

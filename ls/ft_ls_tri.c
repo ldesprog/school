@@ -52,10 +52,10 @@ int		ft_str_ls_cmp(char *s1, char *s2)
 	{
 		a = (unsigned char)s1[i];
 		b = (unsigned char)s2[i];
-		if (a >= 'A' && a <= 'Z')
+	/*	if (a >= 'A' && a <= 'Z')
 			a += 32;
 		if (b >= 'A' && b <= 'Z')
-			b += 32;
+			b += 32;*/
 		if (a != b)
 			return (a - b);
 		i++;

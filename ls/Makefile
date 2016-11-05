@@ -1,4 +1,4 @@
-NAME = a.ls
+NAME = ft_ls
 
 SRC = ft_affichage.c \
 		ft_affichage_2.c \
