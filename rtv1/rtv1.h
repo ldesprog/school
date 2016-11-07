@@ -33,12 +33,18 @@ typedef struct	s_sphere
 	t_color		c;
 }				t_sphere;
 
+typedef struct	s_light
+{
+	t_vector	*pos;
+	t_color		c;
+}				t_light;
+
 typedef struct	s_mlx
 {
 	void	*mlx;
 	void	*win;
 	void	*img;
-	int		*data;
+	char	*data;
 	int		bpp;
 	int 	s_line;
 	int		endian;
@@ -56,6 +62,7 @@ typedef struct	s_env
 	//la faudra changer le type 
 	//pour passer en object pour le moment ya que la sphere
 	t_sphere	*object;
+	t_light		*light;
 }				t_env;
 
 /*
@@ -65,6 +72,7 @@ void		ft_vector_normalize(t_vector *v);
 double		ft_vector_dot(t_vector *a, t_vector *b);
 t_vector	*ft_vector_copy(t_vector *a);
 t_vector	*ft_vector_sub(t_vector *a, t_vector *b);
+t_vector	*ft_p_hit(t_vector *v_O, t_vector *v_dir, double dist);
 
 /*
 ** ft_intersection
@@ -74,6 +82,6 @@ int		ft_intersection(t_sphere *object, t_vector *ray_O, t_vector *ray_D, double 
 /*
 ** ft_put_pixel
 */
-void	ft_print_pixel(t_env *e, int x, int y);
+void	ft_print_pixel(t_env *e, int x, int y, double angle);
 
 #endif

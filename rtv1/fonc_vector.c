@@ -45,3 +45,14 @@ t_vector	*ft_vector_sub(t_vector *a, t_vector *b)
 	v->z = a->z - b->z;
 	return (v);
 }
+
+t_vector	*ft_p_hit(t_vector *v_O, t_vector *v_dir, double dist)
+{
+	t_vector *p_hit;
+
+	p_hit = (t_vector *)ft_malloc(sizeof(t_vector));
+	p_hit->x = v_O->x + v_dir->x * dist;
+	p_hit->y = v_O->y + v_dir->y * dist;
+	p_hit->z = v_O->z + v_dir->z * dist;
+	return (p_hit);
+}
