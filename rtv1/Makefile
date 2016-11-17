@@ -3,7 +3,10 @@ NAME = rtv1
 SRC = main.c \
 		fonc_vector.c \
 		ft_put_pixel.c \
-		ft_intersection.c
+		ft_intersection.c \
+		ft_hit.c \
+		full_obj.c \
+		malloc_obj.c
 
 OBJ = $(SRC:.c=.o)
 

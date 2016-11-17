@@ -22,7 +22,7 @@ typedef struct	s_vector
 typedef struct	s_color
 {
 	int r;
-	int v;
+	int g;
 	int b;
 }				t_color;
 
@@ -30,14 +30,50 @@ typedef struct	s_sphere
 {
 	t_vector	*pos;
 	double		radius;
-	t_color		c;
 }				t_sphere;
+
+typedef struct	s_plan
+{
+	t_vector	*normale;
+	t_vector	*point;
+}				t_plan;
+
+typedef struct	s_cylinder
+{
+	t_vector *dir;
+	t_vector *pos;
+	double r;
+}				t_cylinder;
 
 typedef struct	s_light
 {
 	t_vector	*pos;
-	t_color		c;
+	double		intensity;
 }				t_light;
+
+typedef struct	s_cam
+{
+	t_vector *eye;
+	t_vector *l_at;
+	t_vector *up;
+	double		dist;
+	double		fov;
+	double		h;
+	double		w;
+	t_vector *c;
+	t_vector *l;
+	t_vector *n;
+	t_vector *u;
+}				t_cam;
+
+typedef struct	s_obj
+{
+	int		(*ft_intersect)(void *, t_vector *, t_vector *, double *);
+	double	(*ft_hit)(void *, t_vector *, t_vector *, void *);
+	void	*obj;
+	t_color	*c;
+	struct s_obj	*next;
+}				t_obj;
 
 typedef struct	s_mlx
 {
@@ -59,10 +95,12 @@ typedef struct	s_env
 	t_vector	*ray_D;
 	//t_vector	*a;
 	t_vector	*b;
-	//la faudra changer le type 
-	//pour passer en object pour le moment ya que la sphere
-	t_sphere	*object;
+	t_obj		*obj;
 	t_light		*light;
+	t_obj		*o_hit;
+	t_cam		*cam;
+	int x;
+	int y;
 }				t_env;
 
 /*
@@ -77,11 +115,37 @@ t_vector	*ft_p_hit(t_vector *v_O, t_vector *v_dir, double dist);
 /*
 ** ft_intersection
 */
-int		ft_intersection(t_sphere *object, t_vector *ray_O, t_vector *ray_D, double *t);
+int		ft_inter_plane(void *plan, t_vector *ray_O, t_vector *ray_D, double *t);
+int		ft_inter_sphere(void *sphere, t_vector *ray_O, t_vector *ray_D, double *t);
+int		ft_inter_cylinder(void	*o, t_vector *ray_O, t_vector *ray_D, double *t);
 
 /*
 ** ft_put_pixel
 */
 void	ft_print_pixel(t_env *e, int x, int y, double angle);
+void	ft_put_color(t_obj *obj, int r, int g, int b);
+
+/*
+** ft_hit
+*/
+double	ft_sphere_hit(void *o, t_vector *p_hit, t_vector *l_vector, void *e);
+double	ft_plan_hit(void *o, t_vector *p_hit, t_vector *l_vector, void *e);
+double	ft_cylinder_hit(void *o, t_vector *p_hit, t_vector *l_vector, void *x);
+
+/*
+** ft_malloc_obj
+*/
+t_light		*ft_malloc_light(void);
+t_sphere	*ft_malloc_sphere(void);
+t_plan		*ft_malloc_plan(void);
+t_cylinder	*ft_malloc_cylinder(void);
+
+/*
+** ft_full_obj
+*/
+void	ft_full_light(t_light *l, double x, double y, double z, double intensity);
+void	ft_full_sphere(t_sphere *s, double x, double y, double z, double radius);
+void	ft_full_plan(t_plan *p, double xn, double yn, double zn, double xp, double yp, double zp);
+void	ft_full_cylinder(t_cylinder *c, double xd, double yd, double zd, double xp, double yp, double zp, double r);
 
 #endif
