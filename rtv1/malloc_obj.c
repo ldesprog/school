@@ -37,3 +37,13 @@ t_cylinder	*ft_malloc_cylinder(void)
 	cylinder->pos = (t_vector *)ft_malloc(sizeof(t_vector));
 	return (cylinder);
 }
+
+t_cone		*ft_malloc_cone(void)
+{
+	t_cone *cone;
+
+	cone = (t_cone *)ft_malloc(sizeof(t_cone));
+	cone->pos = (t_vector *)ft_malloc(sizeof(t_vector));
+	cone->dir = (t_vector *)ft_malloc(sizeof(t_vector));
+	return (cone);
+}

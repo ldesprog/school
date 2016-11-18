@@ -45,10 +45,18 @@ typedef struct	s_cylinder
 	double r;
 }				t_cylinder;
 
+typedef struct		s_cone
+{
+	t_vector		*pos;
+	t_vector		*dir;
+	double			angle;
+}					t_cone;
+
 typedef struct	s_light
 {
 	t_vector	*pos;
 	double		intensity;
+	struct s_light	*next;
 }				t_light;
 
 typedef struct	s_cam
@@ -91,14 +99,14 @@ typedef struct	s_mlx
 typedef struct	s_env
 {
 	t_mlx		*mlx;
-	t_vector	*ray_O;
-	t_vector	*ray_D;
+	t_vector	*dir;
 	//t_vector	*a;
 	t_vector	*b;
 	t_obj		*obj;
 	t_light		*light;
 	t_obj		*o_hit;
 	t_cam		*cam;
+	double 		angle;
 	int x;
 	int y;
 }				t_env;
@@ -115,9 +123,10 @@ t_vector	*ft_p_hit(t_vector *v_O, t_vector *v_dir, double dist);
 /*
 ** ft_intersection
 */
-int		ft_inter_plane(void *plan, t_vector *ray_O, t_vector *ray_D, double *t);
-int		ft_inter_sphere(void *sphere, t_vector *ray_O, t_vector *ray_D, double *t);
-int		ft_inter_cylinder(void	*o, t_vector *ray_O, t_vector *ray_D, double *t);
+int		ft_inter_plane(void *plan, t_vector *pos, t_vector *dir, double *t);
+int		ft_inter_sphere(void *sphere, t_vector *pos, t_vector *dir, double *t);
+int		ft_inter_cylinder(void	*o, t_vector *pos, t_vector *dir, double *t);
+int		ft_inter_cone(void *o, t_vector *pos, t_vector *dir, double *t);
 
 /*
 ** ft_put_pixel
@@ -131,6 +140,7 @@ void	ft_put_color(t_obj *obj, int r, int g, int b);
 double	ft_sphere_hit(void *o, t_vector *p_hit, t_vector *l_vector, void *e);
 double	ft_plan_hit(void *o, t_vector *p_hit, t_vector *l_vector, void *e);
 double	ft_cylinder_hit(void *o, t_vector *p_hit, t_vector *l_vector, void *x);
+double	ft_cone_hit(void *o, t_vector *p_hit, t_vector *l_vector, void *x);
 
 /*
 ** ft_malloc_obj
@@ -139,6 +149,7 @@ t_light		*ft_malloc_light(void);
 t_sphere	*ft_malloc_sphere(void);
 t_plan		*ft_malloc_plan(void);
 t_cylinder	*ft_malloc_cylinder(void);
+t_cone		*ft_malloc_cone(void);
 
 /*
 ** ft_full_obj
@@ -147,5 +158,6 @@ void	ft_full_light(t_light *l, double x, double y, double z, double intensity);
 void	ft_full_sphere(t_sphere *s, double x, double y, double z, double radius);
 void	ft_full_plan(t_plan *p, double xn, double yn, double zn, double xp, double yp, double zp);
 void	ft_full_cylinder(t_cylinder *c, double xd, double yd, double zd, double xp, double yp, double zp, double r);
+void	ft_full_cone(t_cone *c, double xp, double yp, double zp, double xd, double yd, double zd, double angle);
 
 #endif

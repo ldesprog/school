@@ -37,3 +37,15 @@ void	ft_full_cylinder(t_cylinder *c, double xd, double yd, double zd, double xp,
 	c->pos->z = zp;
 	c->r = r;
 }
+
+void	ft_full_cone(t_cone *c, double xd, double yd, double zd, double xp, double yp, double zp, double angle)
+{
+	c->pos->x = xp;
+	c->pos->y = yp;
+	c->pos->z = zp;
+	c->dir->x = xd;
+	c->dir->y = yd;
+	c->dir->z = zd;
+	ft_vector_normalize(c->dir);
+	c->angle = angle;
+}
