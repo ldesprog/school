@@ -1,16 +1,35 @@
 NAME = rtv1
 
-SRC = main.c \
+INC = -I./includes/ -I./libft/ 
+
+SRC =	main.c \
 		fonc_vector.c \
 		ft_put_pixel.c \
 		ft_intersection.c \
 		ft_hit.c \
 		full_obj.c \
-		malloc_obj.c
+		malloc_obj.c \
+		ft_parcing.c
 
-OBJ = $(SRC:.c=.o)
+OBJECT = camera.c \
+			light.c \
+			sphere.c \
+			plane.c \
+			cylinder.c \
+			cone.c
 
-CFLAGS = -Wall -Werror -Wextra -I./
+#MATRICE =
+
+#VECTOR = 
+
+SRCS = $(addprefix ./srcs/src/, $(SRC))
+SRCS += $(addprefix ./srcs/obj/, $(OBJECT))
+#SRCS += $(addprefix ./srcs/vector/, $(VECTOR))
+#SRCS += $(addprefix ./srcs/matrice/, $(MATRICE))
+
+OBJ = $(SRCS:.c=.o)
+
+CFLAGS = -Wall -Werror -Wextra $(INC)
 #LFLAGS = -L/usr/X11/lib -lmlx -lXext -lX11
 LFLAGS = -lmlx -framework OpenGL -framework AppKit
 
