@@ -121,21 +121,11 @@
 void	ft_init(t_env *e)
 {
 	e->mlx = (t_mlx *)ft_malloc(sizeof(t_mlx));
-	e->cam = (t_cam *)ft_malloc(sizeof(t_cam));
-	e->cam->eye = (t_vector *)ft_malloc(sizeof(t_vector));
-	e->cam->l_at = (t_vector *)ft_malloc(sizeof(t_vector));
-	e->cam->up = (t_vector *)ft_malloc(sizeof(t_vector));
-	e->cam->l = (t_vector *)ft_malloc(sizeof(t_vector));
-	e->cam->c = (t_vector *)ft_malloc(sizeof(t_vector));
-	e->cam->n = (t_vector *)ft_malloc(sizeof(t_vector));
-	e->cam->u = (t_vector *)ft_malloc(sizeof(t_vector));
-
-	e->dir = (t_vector *)ft_malloc(sizeof(t_vector));
 
 	e->b = (t_vector *)ft_malloc(sizeof(t_vector));
 	e->obj = (t_obj *)ft_malloc(sizeof(t_obj));
 	e->obj->next = NULL;
-	e->light = ft_malloc_light();
+	e->light = (t_light *)ft_malloc(sizeof(t_light));
 	e->light->next = NULL;
 	e->c_hit = (t_color *)ft_malloc(sizeof(t_color));
 	e->mlx->height = 768;
@@ -169,7 +159,6 @@ void	ft_ray(int x, int y, t_env *e)
 		hit = tmp->ft_intersect(tmp->obj, e->cam->eye, e->dir, &dist);
 		if (hit)
 		{
-			printf("pute\n");
 			e->o_hit = tmp;
 			ft_fill_color(e->c_hit, tmp->c->r, tmp->c->g, tmp->c->b);
 		}
@@ -199,11 +188,13 @@ void	ft_ray(int x, int y, t_env *e)
 			e->angle += angle;
 		}
 		l_tmp = l_tmp->next;
-		
+		free(l_vector);
+		free(p_hit);
 	}
 	if (e->angle > 1)
 		e->angle = 1;
 	ft_print_pixel(e, x, y, e->angle);
+	free(e->dir);
 }
 
 void	ft_start(t_env *e)
@@ -251,9 +242,8 @@ int main(int ac, char **av)
 	(void)ac;
 	e = (t_env *)ft_malloc(sizeof(t_env));
 	ft_init(e);
-	//faire le parcing
-	
 	ft_parcing(e, av[1]);
+
 	// ft_test_parcing(e);
 	//on prepare la mlx
 	e->mlx->mlx = mlx_init();
@@ -261,10 +251,12 @@ int main(int ac, char **av)
 	e->mlx->img = mlx_new_image(e->mlx->mlx, e->mlx->width, e->mlx->height);
 	e->mlx->data = mlx_get_data_addr(e->mlx->img, &(e->mlx->bpp),
 		&(e->mlx->s_line), &(e->mlx->endian));
+
 	//on lance le raytrace
 	ft_start(e);
 	mlx_put_image_to_window(e->mlx->mlx, e->mlx->win, e->mlx->img, 0, 0);
 	//on loop
+
 	mlx_loop(e->mlx->mlx);
 	return (0);
 }

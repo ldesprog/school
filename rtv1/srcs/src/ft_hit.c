@@ -13,6 +13,7 @@ double	ft_sphere_hit(void *o, t_vector *p_hit, t_vector *l_vector, void *x)
 	ft_vector_normalize(n_hit);
 	ft_vector_normalize(l_vector);
 	angle = ft_vector_dot(n_hit, l_vector);
+	free(n_hit);
 	return (angle);
 }
 
@@ -66,6 +67,9 @@ double	ft_cylinder_hit(void *o, t_vector *p_hit, t_vector *l_vector, void *x)
 	ft_vector_normalize(r);
 	ft_vector_normalize(l_vector);
 	angle = ft_vector_dot(r, l_vector);
+	free(b);
+	free(c);
+	free(r);
 	return (angle);
 }
 
@@ -85,7 +89,6 @@ double	ft_cone_hit(void *o, t_vector *p_hit, t_vector *l_vector, void *x)
 	e = (t_env *)x;
 	obj = (t_cone *)o;
 
-	printf("cone-erie\n");
 	alpha = M_PI * obj->angle / 180;
 	c = ft_vector_sub(p_hit, obj->pos);
 	hypo = sqrt(ft_vector_dot(c, c));
@@ -102,11 +105,14 @@ double	ft_cone_hit(void *o, t_vector *p_hit, t_vector *l_vector, void *x)
 		c->y = obj->dir->y * -adj + obj->pos->y;
 		c->z = obj->dir->z * -adj + obj->pos->z;
 	}
+	free(b);
 	b = ft_vector_sub(p_hit, c);
+	free(c);
 	// printf("%f, %f, %f\n", b->x, b->y, b->z);
 	ft_vector_normalize(b);
 	ft_vector_normalize(l_vector);
 	angle = ft_vector_dot(b, l_vector);
+	free(b);
 	// printf("%f\n", angle);
 	if (angle < 0)
 		angle = 0;

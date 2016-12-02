@@ -88,30 +88,15 @@ void	ft_fill_obj(t_env *e, char *line)
 
 	type = get_word(line, 0);
 	if (strcmp(type, "light") == 0)
-	{
-		printf("light\n");
 		ft_fill_light(e, line);
-	}
 	else if (strcmp(type, "sphere") == 0)
-	{
-		printf("sphere\n");
 		ft_fill_sphere(e, line);
-	}
 	else if (strcmp(type, "plane") == 0)
-	{
-		printf("plane\n");
 		ft_fill_plane(e, line);
-	}
 	else if (strcmp(type, "cylinder") == 0)
-	{
-		printf("cyl\n");
 		ft_fill_cylinder(e, line);
-	}
 	else if (strcmp(type, "cone") == 0)
-	{
-		printf("cone\n");
 		ft_fill_cone(e, line);
-	}
 	else
 	{
 		// printf("else\n");
@@ -132,6 +117,8 @@ void	ft_parcing(t_env *e, char *file)
 	int fd;
 	char *line;
 	int nb_cam;
+	t_obj *tmp_o;
+	t_light *tmp_l;
 
 	if ((fd = open(file, O_RDONLY)) < 0)
 	{
@@ -139,10 +126,10 @@ void	ft_parcing(t_env *e, char *file)
 		exit(0);
 	}
 	nb_cam = 0;
-	printf("1\n");
 	while (get_next_line(fd, &line))
 	{
 		// printf("%s\n", line);
+
 		if (strncmp(line, "camera", 6) == 0)
 		{
 			ft_fill_cam(e, line);
@@ -157,9 +144,17 @@ void	ft_parcing(t_env *e, char *file)
 			;
 		else
 			ft_fill_obj(e, line);
+		free(line);
 	}
-	printf("fin\n");
-	e->obj = e->obj->next;
-	e->light = e->light->next;
+	free(line);
+	tmp_o = e->obj->next;
+	tmp_l = e->light->next;
+	free(e->obj);
+	free(e->light);
+	e->obj = tmp_o;
+	e->light = tmp_l;
 	// faudrai free les 2 con
+	// bon faut verifier que c free propre
+	close(fd);
+
 }

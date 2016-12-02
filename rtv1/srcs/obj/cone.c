@@ -25,9 +25,4 @@ void	ft_fill_cone(t_env *e, char *line)
 	ft_put_color_from_line(tmp, line, 8);
 	free(word);
 	tmp->next = NULL;
-	printf("je fait le connnnne\n");
-	printf("%f, %f, %f\n", c->pos->x, c->pos->y, c->pos->z);
-	printf("%f, %f, %f\n", c->dir->x, c->dir->y, c->dir->z);
-	printf("%f\n", c->angle);
-	printf("%d, %d, %d\n", tmp->c->r, tmp->c->g, tmp->c->b);
 }

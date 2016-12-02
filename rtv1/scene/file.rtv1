@@ -3,19 +3,19 @@ camera -1500 150 -2000 0 0 200 60
 
 #light pos_x pos_y pos_z //red green blue
 light -100 300 -1000 
-#light 100 300 -100
+light 100 300 -100
 
 #sphere pos_x pos_y pos_z radius red green blue
-#sphere -500 500 200 40 255 0 0
+sphere -500 500 200 40 255 0 0
 
 #plane pos_x pos_y pos_z normale_x normale_y normale_z red green blue
-#plane 0 -50 200 0 1 0 0 0 255
-#plane 0 0 300 0 0 1 0 0 235
+plane 0 -50 200 0 1 0 0 0 255
+plane 0 0 300 0 0 1 0 0 235
 
 #cylinder pos_x pos_y pos_z dir_x dir_y dir_z radius red green blue
-#cylinder 0 0 250 1 1 0 30 255 255 0
+cylinder 0 0 250 1 1 0 30 255 255 0
 
 #cone pos_x pos_y pos_z dir_x dir_y dir_z angle ared green blue
-cone 0 0 250 1 1 0 30 0 255 0
+cone 0 0 350 1 1 0 30 0 255 0
 
-#sphere 500 500 200 40 255 0 0
+sphere 500 500 200 40 255 0 0

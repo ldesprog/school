@@ -16,6 +16,7 @@ int		ft_inter_plane(void *plan, t_vector *pos, t_vector *dir, double *t)
 	//printf("sa passe la\n");
 	truc = ft_vector_sub(p->point, pos);
 	t2 = ft_vector_dot(truc, p->normale) / denom;
+	free(truc);
 	if (t2 > 0.01 && t2 < *t)
 		*t = t2;
 	else
@@ -37,6 +38,7 @@ int		ft_inter_sphere(void *sphere, t_vector *pos, t_vector *dir, double *t)
 	dist = ft_vector_sub(s->pos, pos);
 	b = ft_vector_dot(dir, dist);
 	d = b * b - ft_vector_dot(dist, dist) + s->radius * s->radius;
+	free(dist);
 	if (d < 0)
 		return (0);
 	t0 = b - sqrt(d);
@@ -138,9 +140,9 @@ static int	solve_quad(double a, double b, double c, double *t)
 		q = (b > 0) ? -.5 * (b + sqrt(delta)) : -.5 * (b + sqrt(delta));
 		x0 = q / a;
 		x1 = c / q;
-		if (x0 > x1)
+		if (x0 > x1 && x1 > 0.01)
 			x0 = x1;
-		if (*t > x0 && x0 > 0.1)
+		if (*t > x0 && x0 > 0.01)
 		{
 			*t = x0;
 			return (1);
@@ -190,5 +192,8 @@ int				ft_inter_cone(void *o, t_vector *pos, t_vector *dir, double *t)
 	arg2 = 2 * (pow(cos(alpha), 2) * ft_vector_dot(tmp1, tmp2)) - 2 * (pow(sin(alpha), 2) * ft_vector_dot(dir, cone->dir) * ft_vector_dot(origin, cone->dir));
 	arg3 = pow(cos(alpha), 2) * ft_vector_dot(tmp2, tmp2) - pow(sin(alpha), 2) * pow(ft_vector_dot(origin, cone->dir), 2);
 	ret = solve_quad(arg1, arg2, arg3, t);
+	free(origin);
+	free(tmp1);
+	free(tmp2);
 	return (ret);
 }
