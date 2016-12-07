@@ -59,5 +59,6 @@ char	*get_word(char *line, int nb);
 void	ft_fill_vector_from_file(t_vector *v, char *line, int pos);
 void	ft_fill_obj(t_env *e, char *line);
 void	ft_parcing(t_env *e, char *file);
+double	ft_atodi(char *str);
 
 #endif

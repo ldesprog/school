@@ -45,7 +45,7 @@ void	ft_fill_cam(t_env *e, char *line)
 	free(word);
 	ft_fill_vector_from_file(e->cam->eye, line, 1);
 	ft_fill_vector_from_file(e->cam->l_at, line, 4);
-	e->cam->fov = ft_is_int((word = get_word(line, 7)));
+	e->cam->fov = ft_atodi((word = get_word(line, 7)));
 	free(word);
 	e->cam->dist = 150;
 	e->cam->up->x = 0;

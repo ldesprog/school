@@ -18,10 +18,9 @@ void	ft_fill_cone(t_env *e, char *line)
 	c->pos = (t_vector *)ft_malloc(sizeof(t_vector));
 	c->dir = (t_vector *)ft_malloc(sizeof(t_vector));
 	ft_fill_vector_from_file(c->pos, line, 1);
-
 	ft_fill_vector_from_file(c->dir, line, 4);
 	ft_vector_normalize(c->dir);
-	c->angle = ft_is_int((word = get_word(line, 7)));
+	c->angle = ft_atodi((word = get_word(line, 7)));
 	ft_put_color_from_line(tmp, line, 8);
 	free(word);
 	tmp->next = NULL;

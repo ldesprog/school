@@ -14,7 +14,7 @@ int		ft_is_int(char *str)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 		i++;
-	if (i > 8)
+	if (i > 8 || str[i] != '\0')
 	{
 		printf("Map error\n");
 		exit(0);
@@ -35,6 +35,44 @@ int		ft_is_int(char *str)
 	if (neg)
 		return (ft_atoi(--str));
 	return (ft_atoi(str));
+}
+
+double	ft_atodi(char *str)
+{
+	int i;
+	char *str2;
+	double nb;
+	double nb2;
+	int x;
+
+	i = 0;
+	while (str[i] == '-' || (str[i] >= '0' && str[i] <= '9'))
+		i++;
+	if (str[i] != ',' && str[i] != '.' && str[i] != '\0')
+	{
+		printf("Map error\n");
+		exit(0);
+	}
+	nb2 = 0;
+	if (str[i] && str[i + 1])
+	{
+		str2 = &str[i + 1];
+		nb2 = ft_is_int(str2);
+		x = 0;
+		nb2 /= 10.0;
+		while (str2[x++] == '0')
+			nb2 /= 10.0;
+		while (nb2 >= 1)
+			nb2 /= 10.0;
+	}
+	str[i] = 0;
+	nb = ft_is_int(str);
+	if (nb >= 0)
+		nb += nb2;
+	else
+		nb -= nb2;
+	printf("%f\n", nb);
+	return (nb);
 }
 
 char	*get_word(char *line, int nb)
@@ -99,7 +137,6 @@ void	ft_fill_obj(t_env *e, char *line)
 		ft_fill_cone(e, line);
 	else
 	{
-		// printf("else\n");
 		i = 0;
 		while (line[i] || line[i] == ' ' || line[i] == '\t')
 			i++;
@@ -128,8 +165,6 @@ void	ft_parcing(t_env *e, char *file)
 	nb_cam = 0;
 	while (get_next_line(fd, &line))
 	{
-		// printf("%s\n", line);
-
 		if (strncmp(line, "camera", 6) == 0)
 		{
 			ft_fill_cam(e, line);
@@ -140,9 +175,7 @@ void	ft_parcing(t_env *e, char *file)
 			}
 			nb_cam++;
 		}
-		else if (line[0] == '#')
-			;
-		else
+		else if (line[0] != '#')
 			ft_fill_obj(e, line);
 		free(line);
 	}
@@ -153,8 +186,5 @@ void	ft_parcing(t_env *e, char *file)
 	free(e->light);
 	e->obj = tmp_o;
 	e->light = tmp_l;
-	// faudrai free les 2 con
-	// bon faut verifier que c free propre
 	close(fd);
-
 }

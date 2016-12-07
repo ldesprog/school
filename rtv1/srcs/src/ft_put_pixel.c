@@ -19,10 +19,10 @@ void	ft_put_color_from_line(t_obj *obj, char *line, int i)
 	char *word;
 
 	obj->c = (t_color *)ft_malloc(sizeof(t_color));
-	obj->c->r = ft_is_int((word = get_word(line, i)));
+	obj->c->r = ft_atodi((word = get_word(line, i)));
 	free(word);
-	obj->c->g = ft_is_int((word = get_word(line, i + 1)));
+	obj->c->g = ft_atodi((word = get_word(line, i + 1)));
 	free(word);
-	obj->c->b = ft_is_int((word = get_word(line, i + 2)));
+	obj->c->b = ft_atodi((word = get_word(line, i + 2)));
 	free(word);
 }
